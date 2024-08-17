@@ -22,8 +22,11 @@ class Chessboard
   def create_board(grid = 8)
     @board = Vertex.new if @board.nil?
     starting_square_x = @board
-    counter = 0
 
+    stack_row(starting_square_x, grid)
+  end
+
+  def stack_row(starting_square_x, grid, counter = 0)
     grid.times do
       starting_square_y = starting_square_x
 
