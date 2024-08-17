@@ -3,11 +3,9 @@ require_relative 'chess_pieces/knight.rb'
 
 class Vertex
     attr_accessor :up, :down, :left, :right, :data
-    def initialize(data = "[ ]",up = nil,down = nil, left = nil, right = nil )
+    def initialize(data = "[ ]",up = nil, right = nil )
         @data = data
         @up = up
-        @down = down
-        @left = left
         @right = right
     end
 end
