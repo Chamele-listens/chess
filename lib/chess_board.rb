@@ -28,16 +28,21 @@ class Chessboard
       starting_square_y = starting_square_x
 
       counter += 1
-      (grid - 1).times do
-        starting_square_x.right = Vertex.new
-        next_square_x = starting_square_x.right
-        starting_square_x = next_square_x
-      end
+
+      create_row(grid, starting_square_x)
 
       return if counter == grid
 
       starting_square_y.up = Vertex.new
       starting_square_x = starting_square_y.up
+    end
+  end
+
+  def create_row(grid, starting_square_x)
+    (grid - 1).times do
+      starting_square_x.right = Vertex.new
+      next_square_x = starting_square_x.right
+      starting_square_x = next_square_x
     end
   end
 
