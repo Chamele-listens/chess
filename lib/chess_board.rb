@@ -2,7 +2,7 @@ require_relative 'tools/basic_tools'
 require_relative 'chess_pieces/knight'
 
 class Vertex
-  attr_accessor :up, :down, :left, :right, :data
+  attr_accessor :up, :right, :data
 
   def initialize(data = '[ ]', up = nil, right = nil)
     @data = data
@@ -72,6 +72,10 @@ class Chessboard
       end
       square = starting_square_y.up
     end
+    print_board_to_console(full_display, grid_number)
+  end
+
+  def print_board_to_console(full_display, grid_number)
     full_display.reverse_each { |num, row| p "#{num} #{row}".gsub!(/"/, '') }
     row_num = []
     grid_number.times { |num| row_num << (num + 1).to_s }
