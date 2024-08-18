@@ -1,6 +1,7 @@
 require_relative 'tools/basic_tools'
 require_relative 'chess_pieces/knight'
 
+# Vertex class for storing each square data
 class Vertex
   attr_accessor :up, :right, :data
 
@@ -11,6 +12,7 @@ class Vertex
   end
 end
 
+# Chessboard class for manipulating the board and the chess pieces on it
 class Chessboard
   include Basic_tools
   attr_accessor :board
