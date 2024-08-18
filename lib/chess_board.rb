@@ -111,16 +111,18 @@ class Chessboard
   def move(chesspiece_location, chesspiece_distination)
     chess_type = select_grid(chesspiece_location) { |square| square.data }
 
-    if chess_type.is_a?(Knight)
-      # p "It is a knight"
-      # p chess_type.knight_move(chesspiece_location,chesspiece_distination)
-      temp = chess_type.knight_move_check(chesspiece_location, chesspiece_distination)
-      return 'invaild move' if temp == false
-    end
+    return if check_chess_piece(chess_type, chesspiece_location, chesspiece_distination) == false
 
     chess_type = remove_chesspiece(chesspiece_location)
     add_chesspiece(chesspiece_distination, chess_type)
     chesspiece_distination
+  end
+
+  def check_chess_piece(chess_type, chesspiece_location, chesspiece_distination)
+    if chess_type.is_a?(Knight) # rubocop:disable Style/GuardClause
+      temp = chess_type.knight_move_check(chesspiece_location, chesspiece_distination)
+      nil if temp == false
+    end
   end
 
   def generate_moves(chesspiece_location)
