@@ -51,7 +51,6 @@ class Chessboard
 
   def show_grid(square = @board)
     full_display = {}
-    horizontal_display = []
     grid_number = 0
 
     loop do
@@ -59,24 +58,28 @@ class Chessboard
       break if starting_square_y.nil?
 
       grid_number += 1
-      loop do
-        horizontal_display << (square.data.is_a?(Chesspiece) ? "[#{square.data.type}]" : square.data)
 
-        if square.right.nil?
-          full_display[grid_number] = horizontal_display
-          horizontal_display = []
-          break
-        end
+      row_to_display(full_display, square, grid_number)
 
-        next_square_x = square.right
-        square = next_square_x
-      end
       square = starting_square_y.up
     end
+
     print_board_to_console(full_display, grid_number)
   end
 
-  def row_to_display
+  def row_to_display(full_display, square, grid_number, horizontal_display = [])
+    loop do
+      horizontal_display << (square.data.is_a?(Chesspiece) ? "[#{square.data.type}]" : square.data)
+
+      if square.right.nil?
+        full_display[grid_number] = horizontal_display
+        horizontal_display = []
+        break
+      end
+
+      next_square_x = square.right
+      square = next_square_x
+    end
   end
 
   def print_board_to_console(full_display, grid_number)
