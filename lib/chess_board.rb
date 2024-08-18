@@ -121,35 +121,7 @@ class Chessboard
   def check_chess_piece(chess_type, chesspiece_location, chesspiece_distination)
     if chess_type.is_a?(Knight) # rubocop:disable Style/GuardClause
       temp = chess_type.knight_move_check(chesspiece_location, chesspiece_distination)
-      nil if temp == false
+      false if temp == false
     end
-  end
-
-  def generate_moves(chesspiece_location)
-    location = chesspiece_location.dup
-
-    possible_moves = []
-
-    ver_cor = location[0]
-    hor_cor = location[1]
-
-    # Up position
-    possible_moves << [ver_cor + 2, hor_cor - 1]
-    possible_moves << [ver_cor + 2, hor_cor + 1]
-
-    # down position
-    possible_moves << [ver_cor - 2, hor_cor - 1]
-    possible_moves << [ver_cor - 2, hor_cor + 1]
-
-    # right position
-    possible_moves << [ver_cor - 1, hor_cor + 2]
-    possible_moves << [ver_cor + 1, hor_cor + 2]
-
-    # left position
-    possible_moves << [ver_cor - 1, hor_cor - 2]
-    possible_moves << [ver_cor + 1, hor_cor - 2]
-
-    # .select {|i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0)}
-    possible_moves.select { |i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0) }
   end
 end

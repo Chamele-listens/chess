@@ -1,85 +1,44 @@
-require_relative 'chesspiece_main.rb'
+require_relative 'chesspiece_main'
 
+# class for checking if knight piece moves is legal
 class Knight < Chesspiece
   def initialize(type)
-      @type = type
+    @type = type
   end
 
-  def knight_move_check(chesspiece_location,chesspiece_distination)
-      # create duplicate value cus it's not stored in the same ref in memoery
-      value = ""
-      
-      value = vertical_moves(chesspiece_location,chesspiece_distination)
-      return value if value != false
-      value = horizontal_moves(chesspiece_location,chesspiece_distination)
-      return value if value != false
-      
-      return false
+  def knight_move_check(chesspiece_location, chesspiece_distination)
+    possible_moves = generate_moves(chesspiece_location)
 
+    return true if possible_moves.include?(chesspiece_distination)
+
+    false
   end
 
-  def vertical_moves(chesspiece_location,chesspiece_distination)
-      location = chesspiece_location.dup
-      distination = chesspiece_distination.dup
+  def generate_moves(chesspiece_location)
+    location = chesspiece_location.dup
 
-          if distination[0] > location[0]
-              #moving up
-              location[0] += 2
-              return false if location[0] > distination[0] 
-              #return false if chesspiece_location[1] <= chesspiece_distination[1]
-              if distination[1] > location[1]
-                  location[1] += 1
-                  return location if distination == location
-              elsif distination[1] < location[1]
-                  location[1] -= 1
-                  return location if distination == location
-              end
-              return false 
-          elsif distination[0] < location[0]
-              #moving down
-              location[0] -= 2
-              if distination[1] > location[1]
-                  location[1] += 1
-                  return location if distination == location
-              elsif distination[1] < location[1]
-                  location[1] -= 1
-                  return location if distination == location
-              end
-              return false
-      end
-      return false
+    possible_moves = []
+
+    ver_cor = location[0]
+    hor_cor = location[1]
+
+    # Up position
+    possible_moves << [ver_cor + 2, hor_cor - 1]
+    possible_moves << [ver_cor + 2, hor_cor + 1]
+
+    # down position
+    possible_moves << [ver_cor - 2, hor_cor - 1]
+    possible_moves << [ver_cor - 2, hor_cor + 1]
+
+    # right position
+    possible_moves << [ver_cor - 1, hor_cor + 2]
+    possible_moves << [ver_cor + 1, hor_cor + 2]
+
+    # left position
+    possible_moves << [ver_cor - 1, hor_cor - 2]
+    possible_moves << [ver_cor + 1, hor_cor - 2]
+
+    # .select {|i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0)}
+    possible_moves.select { |i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0) }
   end
-
-  def horizontal_moves(chesspiece_location,chesspiece_distination)
-      location = chesspiece_location.dup
-      distination = chesspiece_distination.dup
-
-          if distination[1] > location[1]
-              #moving right
-              location[1] += 2
-              #return false if location[1] > distination[1]
-              if distination[0] < location[0]
-                  location[0] -= 1
-                  return location if distination == location
-              elsif distination[0] > location[0]
-                  location[0] += 1
-                  return location if distination == location
-              end
-              return false
-          elsif distination[1] < location[1]
-              #moving left
-              location[1] -= 2
-              #return false if location[1] < distination[1]
-              if distination[0] < location[0]
-                  location[0] -= 1
-                  return location if distination == location
-              elsif distination[0] > location[0]
-                  location[0] += 1
-                  return location if distination == location
-              end
-              return false
-          end
-      return false
-  end
-
 end
