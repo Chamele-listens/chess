@@ -53,6 +53,7 @@ class Chessboard
     full_display = {}
     horizontal_display = []
     grid_number = 0
+
     loop do
       starting_square_y = square
       break if starting_square_y.nil?
@@ -73,6 +74,9 @@ class Chessboard
       square = starting_square_y.up
     end
     print_board_to_console(full_display, grid_number)
+  end
+
+  def row_to_display
   end
 
   def print_board_to_console(full_display, grid_number)
