@@ -73,7 +73,6 @@ class Chessboard
 
       if square.right.nil?
         full_display[grid_number] = horizontal_display
-        horizontal_display = []
         break
       end
 
@@ -84,11 +83,12 @@ class Chessboard
 
   def print_board_to_console(full_display, grid_number)
     full_display.reverse_each { |num, row| p "#{num} #{row}".gsub!(/"/, '') }
+
     row_num = []
     grid_number.times { |num| row_num << (num + 1).to_s }
-    thing = ' '
-    row_num.each { |num| thing << "   #{num} " }
-    p thing
+    number_row_button = ' '
+    row_num.each { |num| number_row_button << "   #{num} " }
+    p number_row_button
   end
 
   def remove_chesspiece(chesspiece_location)
