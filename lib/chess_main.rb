@@ -14,6 +14,8 @@ p b.select_grid([1, 1]) { |square| square.data }
 # b.show_grid
 # b.add_chesspiece([2,2],"♞")
 p b.add_new_chesspiece([4, 4], '♞')
+p b.add_new_chesspiece([6, 2], '♜')
+# b.move([6, 2], [6, 6])
 # b.move([4, 4], [6, 5])
 # p b.knight_move([4,4],[6,6])
 b.show_grid

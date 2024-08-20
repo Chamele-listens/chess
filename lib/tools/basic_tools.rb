@@ -23,8 +23,10 @@ module Basic_tools
     select_grid(chesspiece_distination) do |square|
       square.data = if chess_type == '♞'
                       Knight.new(chess_type)
+                    elsif chess_type == '♜'
+                      Rook.new(chess_type)
                     else
-                      Chesspiece.new(chess_type)
+                      chesspiece.new(chess_type)
                     end
     end
   end

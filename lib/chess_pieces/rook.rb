@@ -6,10 +6,12 @@ class Rook < Chesspiece
   end
 
   def rook_move_check(chesspiece_location, chesspiece_distination)
-    pass
+    p 'Ran'
   end
 
   def generate_moves(chesspiece_location)
-    pass
+    location = chesspiece_location.dup
+
+    possible_moves
   end
 end

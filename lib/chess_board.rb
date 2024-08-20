@@ -1,5 +1,6 @@
 require_relative 'tools/basic_tools'
 require_relative 'chess_pieces/knight'
+require_relative 'chess_pieces/rook'
 
 # Vertex class for storing each square data
 class Vertex
@@ -119,9 +120,12 @@ class Chessboard
   end
 
   def check_chess_piece(chess_type, chesspiece_location, chesspiece_distination)
-    if chess_type.is_a?(Knight) # rubocop:disable Style/GuardClause
+    if chess_type.is_a?(Knight)
       temp = chess_type.knight_move_check(chesspiece_location, chesspiece_distination)
-      false if temp == false
+      temp != false
+    elsif chess_type.is_a?(Rook)
+      temp = chess_type.rook_move_check(chesspiece_location, chesspiece_distination)
+      temp != false
     end
   end
 end
