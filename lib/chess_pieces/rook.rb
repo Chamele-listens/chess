@@ -1,5 +1,6 @@
 require_relative 'chesspiece_main'
 
+# check if a moves a rook instance made is legal
 class Rook < Chesspiece
   def initialize(type)
     @type = type
