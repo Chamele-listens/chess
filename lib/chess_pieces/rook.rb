@@ -6,7 +6,11 @@ class Rook < Chesspiece
   end
 
   def rook_move_check(chesspiece_location, chesspiece_distination)
-    p generate_moves(chesspiece_location)
+    possible_moves = generate_moves(chesspiece_location)
+
+    return true if possible_moves.include?(chesspiece_distination)
+
+    false
   end
 
   def generate_moves(chesspiece_location)
@@ -21,6 +25,10 @@ class Rook < Chesspiece
 
     generate_left_moves(possible_moves, ver_pos, hor_pos, location)
 
+    generate_up_moves(possible_moves, ver_pos, hor_pos, location)
+
+    generate_down_moves(possible_moves, ver_pos, hor_pos, location)
+
     possible_moves
   end
 
@@ -32,8 +40,22 @@ class Rook < Chesspiece
   end
 
   def generate_left_moves(possible_moves, ver_pos, hor_pos, location)
-    (location[1] - (location[1] - 1)).times do
+    (location[1] - 1).times do
       hor_pos -= 1
+      possible_moves << [ver_pos, hor_pos]
+    end
+  end
+
+  def generate_up_moves(possible_moves, ver_pos, hor_pos, location)
+    (8 - location[0]).times do
+      ver_pos += 1
+      possible_moves << [ver_pos, hor_pos]
+    end
+  end
+
+  def generate_down_moves(possible_moves, ver_pos, hor_pos, location)
+    (location[0] - 1).times do
+      ver_pos -= 1
       possible_moves << [ver_pos, hor_pos]
     end
   end
