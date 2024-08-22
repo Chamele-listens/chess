@@ -18,29 +18,31 @@ class Bishop < Chesspiece
 
     possible_moves = []
 
-    generate_upper_right_moves(ver_pos, hor_pos, possible_moves, location)
+    generate_upper_right_moves(ver_pos, hor_pos, possible_moves)
 
-    generate_lower_right_moves(ver_pos, hor_pos, possible_moves, location)
+    generate_lower_right_moves(ver_pos, hor_pos, possible_moves)
 
     possible_moves
   end
 
-  def generate_upper_right_moves(ver_pos, hor_pos, possible_moves, location)
+  def generate_upper_right_moves(ver_pos, hor_pos, possible_moves)
     temp_moves = []
-    (8 - location[1]).times do
+    loop do
       ver_pos += 1
       hor_pos += 1
       temp_moves << [ver_pos, hor_pos]
+      break if ver_pos >= 8 || hor_pos >= 8
     end
     possible_moves << temp_moves
   end
 
-  def generate_lower_right_moves(ver_pos, hor_pos, possible_moves, location)
+  def generate_lower_right_moves(ver_pos, hor_pos, possible_moves)
     temp_moves = []
-    (8 - location[1]).times do
+    loop do
       ver_pos -= 1
       hor_pos += 1
       temp_moves << [ver_pos, hor_pos]
+      break if ver_pos <= 1 || hor_pos >= 8
     end
     possible_moves << temp_moves
   end
