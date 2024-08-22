@@ -1,6 +1,7 @@
 require_relative 'tools/basic_tools'
 require_relative 'chess_pieces/knight'
 require_relative 'chess_pieces/rook'
+require_relative 'chess_pieces/bishop'
 
 # Vertex class for storing each square data
 class Vertex

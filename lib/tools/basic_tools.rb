@@ -25,8 +25,10 @@ module Basic_tools
                       Knight.new(chess_type)
                     elsif chess_type == '♜'
                       Rook.new(chess_type)
+                    elsif chess_type == '♝'
+                      Bishop.new(chess_type)
                     else
-                      chesspiece.new(chess_type)
+                      Chesspiece.new(chess_type)
                     end
     end
   end

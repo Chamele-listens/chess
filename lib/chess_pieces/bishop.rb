@@ -6,8 +6,9 @@ class Bishop < Chesspiece
     @type = type
   end
 
-  def bishop_move_check(chesspiece_location, chesspiece_distination)
+  def bishop_move_check(chesspiece_location, chesspiece_distination, board)
     generate_moves(chesspiece_location)
+    p 'Ran!'
   end
 
   def generate_moves(chesspiece_location)
