@@ -8,7 +8,6 @@ class Bishop < Chesspiece
 
   def bishop_move_check(chesspiece_location, chesspiece_distination, board)
     p generate_moves(chesspiece_location)
-    p 'Ran!'
   end
 
   def generate_moves(chesspiece_location)
@@ -21,6 +20,8 @@ class Bishop < Chesspiece
 
     generate_upper_right_moves(ver_pos, hor_pos, possible_moves, location)
 
+    generate_lower_right_moves(ver_pos, hor_pos, possible_moves, location)
+
     possible_moves
   end
 
@@ -28,6 +29,16 @@ class Bishop < Chesspiece
     temp_moves = []
     (8 - location[1]).times do
       ver_pos += 1
+      hor_pos += 1
+      temp_moves << [ver_pos, hor_pos]
+    end
+    possible_moves << temp_moves
+  end
+
+  def generate_lower_right_moves(ver_pos, hor_pos, possible_moves, location)
+    temp_moves = []
+    (8 - location[1]).times do
+      ver_pos -= 1
       hor_pos += 1
       temp_moves << [ver_pos, hor_pos]
     end
