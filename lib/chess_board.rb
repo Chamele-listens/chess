@@ -124,7 +124,7 @@ class Chessboard
       temp = chess_type.knight_move_check(chesspiece_location, chesspiece_distination)
       temp != false
     elsif chess_type.is_a?(Rook)
-      temp = chess_type.rook_move_check(chesspiece_location, chesspiece_distination)
+      temp = chess_type.rook_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
     end
   end

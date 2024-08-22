@@ -30,4 +30,16 @@ module Basic_tools
                     end
     end
   end
+
+  # For limiting chesspiece move to not move pass a chesspiece without destorying it
+  def move_limit(possible_moves, board)
+    possible_moves.each do |moves_set|
+      moves_set.each_with_index do |moves, index|
+        moves_set.slice!((index + 1)..-1) if (select_grid(moves, [1, 1], board) do |square|
+                                                square.data
+                                              end).is_a?(Chesspiece)
+      end
+    end
+    possible_moves
+  end
 end
