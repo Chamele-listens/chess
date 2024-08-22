@@ -126,6 +126,9 @@ class Chessboard
     elsif chess_type.is_a?(Rook)
       temp = chess_type.rook_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
+    elsif chess_type.is_a?(Bishop)
+      temp = chess_type.bishop_move_check(chesspiece_location, chesspiece_distination, @board)
+      temp != false
     end
   end
 end

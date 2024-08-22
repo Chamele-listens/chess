@@ -11,6 +11,6 @@ class Bishop < Chesspiece
   end
 
   def generate_moves(chesspiece_location)
-    pass
+    chesspiece_location
   end
 end
