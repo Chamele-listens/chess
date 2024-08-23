@@ -2,7 +2,7 @@ require_relative 'chesspiece_main'
 
 # King class for checking if checkmate or stalemate and limit kings movement
 class King < Chesspiece
-  include basic_tools
+  include Basic_tools
   def initialize(type)
     @type = type
   end
