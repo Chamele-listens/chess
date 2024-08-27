@@ -19,12 +19,14 @@ class King < Chesspiece
 
     possible_moves = []
 
-    generate_upper_moves(ver_pos, hor_pos, possible_moves, location)
+    generate_upper_moves(ver_pos, hor_pos, possible_moves)
+    generate_lower_moves(ver_pos, hor_pos, possible_moves)
+    generate_left_right_moves(ver_pos, hor_pos, possible_moves)
 
     possible_moves
   end
 
-  def generate_upper_moves(ver_pos, hor_pos, possible_moves, location)
+  def generate_upper_moves(ver_pos, hor_pos, possible_moves)
     ver_pos += 1
     hor_pos -= 1
 
@@ -32,13 +34,20 @@ class King < Chesspiece
       possible_moves << [ver_pos, hor_pos]
       hor_pos += 1
     end
+  end
 
-    ver_pos -= 2
-    hor_pos = location[1] - 1
+  def generate_lower_moves(ver_pos, hor_pos, possible_moves)
+    ver_pos -= 1
+    hor_pos -= 1
 
     3.times do
       possible_moves << [ver_pos, hor_pos]
       hor_pos += 1
     end
+  end
+
+  def generate_left_right_moves(ver_pos, hor_pos, possible_moves)
+    possible_moves << [ver_pos, hor_pos - 1]
+    possible_moves << [ver_pos, hor_pos + 1]
   end
 end
