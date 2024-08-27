@@ -8,7 +8,11 @@ class King < Chesspiece
   end
 
   def king_move_check(chesspiece_location, chesspiece_distination, board)
-    p generate_moves(chesspiece_location)
+    possible_moves = generate_moves(chesspiece_location)
+
+    return true if possible_moves.include?(chesspiece_distination)
+
+    false
   end
 
   def generate_moves(chesspiece_location)
