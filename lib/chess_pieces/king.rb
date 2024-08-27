@@ -35,6 +35,8 @@ class King < Chesspiece
     hor_pos -= 1
 
     3.times do
+      break if ver_pos > 8
+
       possible_moves << [ver_pos, hor_pos]
       hor_pos += 1
     end
@@ -45,13 +47,15 @@ class King < Chesspiece
     hor_pos -= 1
 
     3.times do
+      break if ver_pos < 1
+
       possible_moves << [ver_pos, hor_pos]
       hor_pos += 1
     end
   end
 
   def generate_left_right_moves(ver_pos, hor_pos, possible_moves)
-    possible_moves << [ver_pos, hor_pos - 1]
-    possible_moves << [ver_pos, hor_pos + 1]
+    possible_moves << [ver_pos, hor_pos - 1] if (hor_pos - 1) >= 1
+    possible_moves << [ver_pos, hor_pos + 1] if (hor_pos + 1) <= 8
   end
 end
