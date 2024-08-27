@@ -10,9 +10,11 @@ class King < Chesspiece
   def king_move_check(chesspiece_location, chesspiece_distination, board)
     possible_moves = generate_moves(chesspiece_location)
 
-    return true if possible_moves.include?(chesspiece_distination)
+    p possible_moves
 
-    false
+    # return true if possible_moves.include?(chesspiece_distination)
+
+    # false
   end
 
   def generate_moves(chesspiece_location)
@@ -37,6 +39,14 @@ class King < Chesspiece
     3.times do
       break if ver_pos > 8
 
+      # special case for when king is at the edge or corner of the board (so king stay in range)
+      if hor_pos < 1
+        hor_pos += 1
+        next
+      end
+
+      next if hor_pos > 8
+
       possible_moves << [ver_pos, hor_pos]
       hor_pos += 1
     end
@@ -48,6 +58,14 @@ class King < Chesspiece
 
     3.times do
       break if ver_pos < 1
+
+      # special case for when king is at the edge or corner of the board (so king stay in range)
+      if hor_pos < 1
+        hor_pos += 1
+        next
+      end
+
+      next if hor_pos > 8
 
       possible_moves << [ver_pos, hor_pos]
       hor_pos += 1
