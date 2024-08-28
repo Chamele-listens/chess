@@ -24,47 +24,47 @@ class Rook < Chesspiece
 
     possible_moves = []
 
-    generate_right_moves(possible_moves, ver_pos, hor_pos, location)
+    generate_right_moves(possible_moves, ver_pos, hor_pos)
 
-    generate_left_moves(possible_moves, ver_pos, hor_pos, location)
+    generate_left_moves(possible_moves, ver_pos, hor_pos)
 
-    generate_up_moves(possible_moves, ver_pos, hor_pos, location)
+    generate_up_moves(possible_moves, ver_pos, hor_pos)
 
-    generate_down_moves(possible_moves, ver_pos, hor_pos, location)
+    generate_down_moves(possible_moves, ver_pos, hor_pos)
 
     possible_moves
   end
 
-  def generate_right_moves(possible_moves, ver_pos, hor_pos, location)
+  def generate_right_moves(possible_moves, ver_pos, hor_pos)
     temp_moves = []
-    (8 - location[1]).times do
+    (8 - hor_pos).times do
       hor_pos += 1
       temp_moves << [ver_pos, hor_pos]
     end
     possible_moves << temp_moves
   end
 
-  def generate_left_moves(possible_moves, ver_pos, hor_pos, location)
+  def generate_left_moves(possible_moves, ver_pos, hor_pos)
     temp_moves = []
-    (location[1] - 1).times do
+    (hor_pos - 1).times do
       hor_pos -= 1
       temp_moves << [ver_pos, hor_pos]
     end
     possible_moves << temp_moves
   end
 
-  def generate_up_moves(possible_moves, ver_pos, hor_pos, location)
+  def generate_up_moves(possible_moves, ver_pos, hor_pos)
     temp_moves = []
-    (8 - location[0]).times do
+    (8 - ver_pos).times do
       ver_pos += 1
       temp_moves << [ver_pos, hor_pos]
     end
     possible_moves << temp_moves
   end
 
-  def generate_down_moves(possible_moves, ver_pos, hor_pos, location)
+  def generate_down_moves(possible_moves, ver_pos, hor_pos)
     temp_moves = []
-    (location[0] - 1).times do
+    (ver_pos - 1).times do
       ver_pos -= 1
       temp_moves << [ver_pos, hor_pos]
     end
