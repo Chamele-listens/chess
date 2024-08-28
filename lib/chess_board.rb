@@ -3,6 +3,7 @@ require_relative 'chess_pieces/knight'
 require_relative 'chess_pieces/rook'
 require_relative 'chess_pieces/bishop'
 require_relative 'chess_pieces/king'
+require_relative 'chess_pieces/pawn'
 
 # Vertex class for storing each square data
 class Vertex
@@ -133,6 +134,9 @@ class Chessboard
       temp != false
     elsif chess_type.is_a?(King)
       temp = chess_type.king_move_check(chesspiece_location, chesspiece_distination, @board)
+      temp != false
+    elsif chess_type.is_a?(Pawn)
+      temp = chess_type.pawn_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
     end
   end

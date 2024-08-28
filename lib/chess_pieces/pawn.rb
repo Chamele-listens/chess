@@ -9,11 +9,11 @@ class Pawn < Chesspiece
     @has_move = false
   end
 
-  def check_pawn_move
-    pass
+  def pawn_move_check
+    generate_moves
   end
 
   def generate_moves
-    pass
+    p 'ran'
   end
 end
