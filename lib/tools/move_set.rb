@@ -1,6 +1,13 @@
 # Store moves for chesspieces that share similars moves
 module Move_set
   # Move sets for diagonal moves (Bishop)
+  def generate_diagonal_moves(ver_pos, hor_pos, possible_moves)
+    generate_upper_right_moves(ver_pos, hor_pos, possible_moves)
+    generate_lower_right_moves(ver_pos, hor_pos, possible_moves)
+    generate_upper_left_moves(ver_pos, hor_pos, possible_moves)
+    generate_lower_left_moves(ver_pos, hor_pos, possible_moves)
+  end
+
   def generate_upper_right_moves(ver_pos, hor_pos, possible_moves)
     temp_moves = []
     loop do
