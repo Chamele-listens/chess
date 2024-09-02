@@ -31,6 +31,8 @@ module Basic_tools
                       King.new(chess_type)
                     elsif chess_type == '♟'
                       Pawn.new(chess_type)
+                    elsif chess_type == '♛'
+                      Queen.new(chess_type)
                     else
                       Chesspiece.new(chess_type)
                     end

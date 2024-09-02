@@ -1,6 +1,6 @@
 require_relative 'chesspiece_main'
 
-class Queen < chesspiece
+class Queen < Chesspiece
   include Basic_tools
   attr_accessor :has_move
 
