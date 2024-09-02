@@ -124,22 +124,23 @@ class Chessboard
   end
 
   def check_chess_piece(chess_type, chesspiece_location, chesspiece_distination)
-    if chess_type.is_a?(Knight)
+    case chess_type
+    when Knight
       temp = chess_type.knight_move_check(chesspiece_location, chesspiece_distination)
       temp != false
-    elsif chess_type.is_a?(Rook)
+    when Rook
       temp = chess_type.rook_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
-    elsif chess_type.is_a?(Bishop)
+    when Bishop
       temp = chess_type.bishop_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
-    elsif chess_type.is_a?(King)
+    when King
       temp = chess_type.king_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
-    elsif chess_type.is_a?(Pawn)
+    when Pawn
       temp = chess_type.pawn_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
-    elsif chess_type.is_a?(Queen)
+    when Queen
       temp = chess_type.pawn_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
     end

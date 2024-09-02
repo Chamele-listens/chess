@@ -21,17 +21,18 @@ module Basic_tools
 
   def add_new_chesspiece(chesspiece_distination, chess_type)
     select_grid(chesspiece_distination) do |square|
-      square.data = if chess_type == '♞'
+      square.data = case chess_type
+                    when '♞'
                       Knight.new(chess_type)
-                    elsif chess_type == '♜'
+                    when '♜'
                       Rook.new(chess_type)
-                    elsif chess_type == '♝'
+                    when '♝'
                       Bishop.new(chess_type)
-                    elsif chess_type == '♚'
+                    when '♚'
                       King.new(chess_type)
-                    elsif chess_type == '♟'
+                    when '♟'
                       Pawn.new(chess_type)
-                    elsif chess_type == '♛'
+                    when '♛'
                       Queen.new(chess_type)
                     else
                       Chesspiece.new(chess_type)
