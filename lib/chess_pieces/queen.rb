@@ -9,8 +9,8 @@ class Queen < Chesspiece
     @has_move = false
   end
 
-  def queen_move_check(chesspiece_location,chesspiece_distination,board)
-    p 'ran'
+  def queen_move_check(chesspiece_location, chesspiece_distination, board)
+    generate_moves(chesspiece_distination)
   end
 
   def generate_moves(chesspiece_distination)
