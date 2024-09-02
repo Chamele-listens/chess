@@ -53,6 +53,13 @@ module Move_set
   end
 
   # Moves for vertical and horizontal moves (Rook)
+  def generate_vertical_horizontal_moves(possible_moves, ver_pos, hor_pos)
+    generate_right_moves(possible_moves, ver_pos, hor_pos)
+    generate_left_moves(possible_moves, ver_pos, hor_pos)
+    generate_up_moves(possible_moves, ver_pos, hor_pos)
+    generate_down_moves(possible_moves, ver_pos, hor_pos)
+  end
+
   def generate_right_moves(possible_moves, ver_pos, hor_pos)
     temp_moves = []
     (8 - hor_pos).times do
