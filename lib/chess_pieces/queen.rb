@@ -6,14 +6,24 @@ class Queen < Chesspiece
 
   def initialize(type)
     @type = type
-    @has_move = false
   end
 
   def queen_move_check(chesspiece_location, chesspiece_distination, board)
-    generate_moves(chesspiece_distination)
+    p generate_moves(chesspiece_location)
   end
 
-  def generate_moves(chesspiece_distination)
-    p 'ran'
+  def generate_moves(chesspiece_location)
+    location = chesspiece_location.dup
+
+    ver_pos = location[0]
+    hor_pos = location[1]
+
+    possible_moves = []
+
+    generate_diagonal_moves(ver_pos, hor_pos, possible_moves)
+
+    generate_vertical_horizontal_moves(possible_moves, ver_pos, hor_pos)
+
+    possible_moves
   end
 end

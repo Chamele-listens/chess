@@ -19,8 +19,9 @@ p b.add_new_chesspiece([4, 5], '♝')
 p b.add_new_chesspiece([5, 8], '♚')
 p b.add_new_chesspiece([3, 3], '♟')
 p b.add_new_chesspiece([5, 6], '♛')
-b.move([4, 5], [3, 4])
-# b.move([4, 4], [6, 5])
+# b.move([4, 5], [3, 4])
+# b.move([3, 2], [5, 3])
+b.move([5, 6], [4, 6])
 # p b.knight_move([4,4],[6,6])
 b.show_grid
 
