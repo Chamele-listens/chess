@@ -142,7 +142,7 @@ class Chessboard
       temp = chess_type.pawn_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
     when Queen
-      temp = chess_type.pawn_move_check(chesspiece_location, chesspiece_distination, @board)
+      temp = chess_type.queen_move_check(chesspiece_location, chesspiece_distination, @board)
       temp != false
     end
   end
