@@ -9,7 +9,12 @@ class Queen < Chesspiece
   end
 
   def queen_move_check(chesspiece_location, chesspiece_distination, board)
-    p generate_moves(chesspiece_location)
+    temp = generate_moves(chesspiece_location)
+    possible_moves = move_limit(temp, board)
+
+    return true if possible_moves.flatten(1).include?(chesspiece_distination)
+
+    false
   end
 
   def generate_moves(chesspiece_location)
