@@ -19,24 +19,24 @@ class Knight < Chesspiece
 
     possible_moves = []
 
-    ver_cor = location[0]
-    hor_cor = location[1]
+    ver_pos = location[0]
+    hor_pos = location[1]
 
     # Up position
-    possible_moves << [ver_cor + 2, hor_cor - 1]
-    possible_moves << [ver_cor + 2, hor_cor + 1]
+    possible_moves << [ver_pos + 2, hor_pos - 1]
+    possible_moves << [ver_pos + 2, hor_pos + 1]
 
     # down position
-    possible_moves << [ver_cor - 2, hor_cor - 1]
-    possible_moves << [ver_cor - 2, hor_cor + 1]
+    possible_moves << [ver_pos - 2, hor_pos - 1]
+    possible_moves << [ver_pos - 2, hor_pos + 1]
 
     # right position
-    possible_moves << [ver_cor - 1, hor_cor + 2]
-    possible_moves << [ver_cor + 1, hor_cor + 2]
+    possible_moves << [ver_pos - 1, hor_pos + 2]
+    possible_moves << [ver_pos + 1, hor_pos + 2]
 
     # left position
-    possible_moves << [ver_cor - 1, hor_cor - 2]
-    possible_moves << [ver_cor + 1, hor_cor - 2]
+    possible_moves << [ver_pos - 1, hor_pos - 2]
+    possible_moves << [ver_pos + 1, hor_pos - 2]
 
     # .select {|i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0)}
     possible_moves.select { |i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0) }
