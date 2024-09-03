@@ -24,13 +24,7 @@ class Rook < Chesspiece
 
     possible_moves = []
 
-    generate_right_moves(possible_moves, ver_pos, hor_pos)
-
-    generate_left_moves(possible_moves, ver_pos, hor_pos)
-
-    generate_up_moves(possible_moves, ver_pos, hor_pos)
-
-    generate_down_moves(possible_moves, ver_pos, hor_pos)
+    generate_vertical_horizontal_moves(possible_moves, ver_pos, hor_pos)
 
     possible_moves
   end
