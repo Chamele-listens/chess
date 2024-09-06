@@ -51,4 +51,13 @@ module Basic_tools
     end
     possible_moves
   end
+
+  def check_chess_type(chess_type)
+    white_pieces = ['♚', '♛', '♜', '♝', '♞', '♟']
+    black_pieces = ['♔', '♕', '♖', '♗', '♘', '♙']
+
+    return true if white_pieces.include?(chess_type)
+
+    false if black_pieces.include?(chess_type)
+  end
 end
