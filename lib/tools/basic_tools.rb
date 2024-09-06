@@ -22,17 +22,17 @@ module Basic_tools
   def add_new_chesspiece(chesspiece_distination, chess_type)
     select_grid(chesspiece_distination) do |square|
       square.data = case chess_type
-                    when '♞'
+                    when '♞', '♘'
                       Knight.new(chess_type)
-                    when '♜'
+                    when '♜', '♖'
                       Rook.new(chess_type)
-                    when '♝'
+                    when '♝', '♗'
                       Bishop.new(chess_type)
-                    when '♚'
+                    when '♚', '♔'
                       King.new(chess_type)
-                    when '♟'
+                    when '♟', '♙'
                       Pawn.new(chess_type)
-                    when '♛'
+                    when '♛', '♕'
                       Queen.new(chess_type)
                     else
                       Chesspiece.new(chess_type)
@@ -56,8 +56,8 @@ module Basic_tools
     white_pieces = ['♚', '♛', '♜', '♝', '♞', '♟']
     black_pieces = ['♔', '♕', '♖', '♗', '♘', '♙']
 
-    return true if white_pieces.include?(chess_type)
+    return true if white_pieces.include?(chess_type) # true for white
 
-    false if black_pieces.include?(chess_type)
+    false if black_pieces.include?(chess_type) # false for black
   end
 end
