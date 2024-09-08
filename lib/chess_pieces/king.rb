@@ -3,8 +3,9 @@ require_relative 'chesspiece_main'
 # King class for checking if checkmate or stalemate and limit kings movement
 class King < Chesspiece
   include Basic_tools
-  def initialize(type)
+  def initialize(type, color)
     @type = type
+    @color = color
   end
 
   def king_move_check(chesspiece_location, chesspiece_distination, board)

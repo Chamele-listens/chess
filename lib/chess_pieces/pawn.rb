@@ -5,8 +5,9 @@ class Pawn < Chesspiece
   include Basic_tools
   attr_accessor :has_move
 
-  def initialize(type)
+  def initialize(type, color)
     @type = type
+    @color = color
     @has_move = false
   end
 

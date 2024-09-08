@@ -2,8 +2,9 @@ require_relative 'chesspiece_main'
 
 # class for checking if knight piece moves is legal
 class Knight < Chesspiece
-  def initialize(type)
+  def initialize(type, color)
     @type = type
+    @color = color
   end
 
   def knight_move_check(chesspiece_location, chesspiece_distination)

@@ -2,15 +2,15 @@ require_relative 'chesspiece_main'
 
 class Queen < Chesspiece
   include Basic_tools
-  attr_accessor :has_move
 
-  def initialize(type)
+  def initialize(type, color)
     @type = type
+    @color = color
   end
 
   def queen_move_check(chesspiece_location, chesspiece_distination, board)
     temp = generate_moves(chesspiece_location)
-    possible_moves = move_limit(temp, board)
+    possible_moves = move_limit(temp, board, @color)
 
     return true if possible_moves.flatten(1).include?(chesspiece_distination)
 

@@ -19,34 +19,42 @@ module Basic_tools
     select_grid(user_grid_select, grid_location, starting_square_y.up, &block)
   end
 
-  def add_new_chesspiece(chesspiece_distination, chess_type)
+  def add_new_chesspiece(chesspiece_distination, chess_type, color)
     select_grid(chesspiece_distination) do |square|
       square.data = case chess_type
                     when '♞', '♘'
-                      Knight.new(chess_type)
+                      Knight.new(chess_type, color)
                     when '♜', '♖'
-                      Rook.new(chess_type)
+                      Rook.new(chess_type, color)
                     when '♝', '♗'
-                      Bishop.new(chess_type)
+                      Bishop.new(chess_type, color)
                     when '♚', '♔'
-                      King.new(chess_type)
+                      King.new(chess_type, color)
                     when '♟', '♙'
-                      Pawn.new(chess_type)
+                      Pawn.new(chess_type, color)
                     when '♛', '♕'
-                      Queen.new(chess_type)
+                      Queen.new(chess_type, color)
                     else
-                      Chesspiece.new(chess_type)
+                      Chesspiece.new(chess_type, color)
                     end
     end
   end
 
+  def get_chesspiece_from_board(moves, board)
+    select_grid(moves, [1, 1], board) { |square| square.data }
+  end
+
   # For limiting chesspiece move to not move pass a chesspiece without destorying it
-  def move_limit(possible_moves, board)
+  def move_limit(possible_moves, board, color)
     possible_moves.each do |moves_set|
       moves_set.each_with_index do |moves, index|
-        moves_set.slice!((index + 1)..-1) if (select_grid(moves, [1, 1], board) do |square|
-                                                square.data
-                                              end).is_a?(Chesspiece)
+        other_chesspiece = get_chesspiece_from_board(moves, board)
+
+        # checks if the chess piece is a different color from the player
+        moves_set.slice!((index + 1)..-1) if other_chesspiece.is_a?(Chesspiece) && other_chesspiece.color != color
+
+        # checks if the chess piece is the same color as the player
+        moves_set.slice!(index..-1) if other_chesspiece.is_a?(Chesspiece) && other_chesspiece.color == color
       end
     end
     possible_moves
@@ -55,6 +63,10 @@ module Basic_tools
   def check_chess_type(chess_type)
     white_pieces = ['♚', '♛', '♜', '♝', '♞', '♟']
     black_pieces = ['♔', '♕', '♖', '♗', '♘', '♙']
+
+    # same_color_block = -> { index }
+
+    # diff_color_block = -> { (index + 1) }
 
     return true if white_pieces.include?(chess_type) # true for white
 
