@@ -92,6 +92,20 @@ class King < Chesspiece
 
     move_limit(path, board, @color)
 
+    p find_pieces_in_king_path(path, board)
+
     path
+  end
+
+  def find_pieces_in_king_path(path, board)
+    opponent_pieces = {}
+    path.each do |path_set|
+      path_set.each do |pos|
+        if get_chesspiece_from_board(pos, board).is_a?(Chesspiece)
+          opponent_pieces[get_chesspiece_from_board(pos, board)] = pos
+        end
+      end
+    end
+    opponent_pieces
   end
 end
