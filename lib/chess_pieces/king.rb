@@ -92,7 +92,9 @@ class King < Chesspiece
 
     move_limit(path, board, @color)
 
-    p find_pieces_in_king_path(path, board)
+    opponent_pieces = find_pieces_in_king_path(path, board)
+
+    find_path_to_king(chesspiece_location, opponent_pieces, board)
 
     path
   end
@@ -107,5 +109,20 @@ class King < Chesspiece
       end
     end
     opponent_pieces
+  end
+
+  def find_path_to_king(chesspiece_location, opponent_pieces, board)
+    opponent_pieces.each do |chesspiece, pos|
+      opponent_path = chesspiece.generate_moves(pos)
+
+      move_limit(opponent_path, board, chesspiece.color)
+
+      opponent_path.flatten(1).each do |opponent_move|
+        if opponent_move == chesspiece_location
+          p 'mated'
+          break
+        end
+      end
+    end
   end
 end
