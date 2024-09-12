@@ -78,7 +78,7 @@ class King < Chesspiece
     possible_moves << [ver_pos, hor_pos + 1] if (hor_pos + 1) <= 8
   end
 
-  def mated?(chesspiece_location, board)
+  def checked?(chesspiece_location, board)
     location = chesspiece_location.dup
 
     ver_pos = location[0]
