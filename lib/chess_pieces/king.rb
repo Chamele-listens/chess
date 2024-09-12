@@ -9,6 +9,8 @@ class King < Chesspiece
   end
 
   def king_move_check(chesspiece_location, chesspiece_distination, board)
+    p mated?(chesspiece_location, board)
+
     possible_moves = generate_moves(chesspiece_location)
 
     return true if possible_moves.include?(chesspiece_distination)
@@ -76,7 +78,7 @@ class King < Chesspiece
     possible_moves << [ver_pos, hor_pos + 1] if (hor_pos + 1) <= 8
   end
 
-  def mated?(chesspiece_location)
+  def mated?(chesspiece_location, board)
     location = chesspiece_location.dup
 
     ver_pos = location[0]
@@ -87,6 +89,8 @@ class King < Chesspiece
     generate_diagonal_moves(ver_pos, hor_pos, path)
 
     generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
+
+    move_limit(path, board, @color)
 
     path
   end
