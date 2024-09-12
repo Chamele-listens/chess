@@ -22,7 +22,7 @@ p b.add_new_chesspiece([5, 6], '♕', 'black')
 p b.add_new_chesspiece([6, 7], '♖', 'black')
 # b.move([4, 5], [3, 4])
 # b.move([3, 2], [5, 3])
-b.move([5, 6], [2, 6])
+b.move([5, 6], [6, 7])
 # p b.knight_move([4,4],[6,6])
 b.show_grid
 

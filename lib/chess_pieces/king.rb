@@ -75,4 +75,19 @@ class King < Chesspiece
     possible_moves << [ver_pos, hor_pos - 1] if (hor_pos - 1) >= 1
     possible_moves << [ver_pos, hor_pos + 1] if (hor_pos + 1) <= 8
   end
+
+  def mated?(chesspiece_location)
+    location = chesspiece_location.dup
+
+    ver_pos = location[0]
+    hor_pos = location[1]
+
+    path = []
+
+    generate_diagonal_moves(ver_pos, hor_pos, path)
+
+    generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
+
+    path
+  end
 end
