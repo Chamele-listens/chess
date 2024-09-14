@@ -79,6 +79,8 @@ class King < Chesspiece
   end
 
   def checked?(chesspiece_location, board)
+    path_around_king = []
+
     location = chesspiece_location.dup
 
     ver_pos = location[0]
@@ -95,6 +97,8 @@ class King < Chesspiece
     opponent_pieces = find_pieces_in_king_path(path, board)
 
     find_path_to_king(chesspiece_location, opponent_pieces, board)
+
+    p find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
 
     path
   end
@@ -126,11 +130,23 @@ class King < Chesspiece
     end
   end
 
-  def find_own_piece(path_around_king, ver_pos, hor_pos)
-    path_around_king = []
+  def find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
+    find_own_piece(path_around_king, ver_pos, hor_pos, board, -> { ver_pos + 1 }, -> { hor_pos + 0 })
+    find_own_piece(path_around_king, ver_pos, hor_pos, board, -> { ver_pos - 1 }, -> { hor_pos + 0 })
+    find_own_piece(path_around_king, ver_pos, hor_pos, board, -> { ver_pos + 0 }, -> { hor_pos + 1 })
+    find_own_piece(path_around_king, ver_pos, hor_pos, board, -> { ver_pos + 0 }, -> { hor_pos - 1 })
 
-    generate_diagonal_moves(ver_pos, hor_pos, path)
+    path_around_king
+  end
 
-    generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
+  def find_own_piece(path_around_king, ver_pos, hor_pos, board, proc_ver, proc_hor)
+    ver_pos = proc_ver.call
+    hor_pos = proc_hor.call
+
+    generate_diagonal_moves(ver_pos, hor_pos, path_around_king)
+
+    generate_vertical_horizontal_moves(path_around_king, ver_pos, hor_pos)
+
+    move_limit(path_around_king, board, @color)
   end
 end
