@@ -9,7 +9,7 @@ class King < Chesspiece
   end
 
   def king_move_check(chesspiece_location, chesspiece_distination, board)
-    p mated?(chesspiece_location, board)
+    p checked?(chesspiece_location, board)
 
     possible_moves = generate_moves(chesspiece_location)
 
@@ -124,5 +124,13 @@ class King < Chesspiece
         end
       end
     end
+  end
+
+  def find_own_piece(path_around_king, ver_pos, hor_pos)
+    path_around_king = []
+
+    generate_diagonal_moves(ver_pos, hor_pos, path)
+
+    generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
   end
 end
