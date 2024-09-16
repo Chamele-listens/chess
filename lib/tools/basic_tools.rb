@@ -1,5 +1,16 @@
 # reusable tool for debuging,gameplay and adding chess pieces on board
 module Basic_tools
+  @@same_color_check_block = ->(other_chesspiece, color) { other_chesspiece.color == color }
+  @@diff_color_check_block = ->(other_chesspiece, color) { other_chesspiece.color != color }
+
+  def self.same_color_check
+    @@same_color_check_block
+  end
+
+  def self.diff_color_check
+    @@diff_color_check_block
+  end
+
   def select_grid(user_grid_select, grid_location = [1, 1], square = @board, &block)
     starting_square_y = square
 
@@ -45,16 +56,16 @@ module Basic_tools
   end
 
   # For limiting chesspiece move to not move pass a chesspiece without destorying it
-  def move_limit(possible_moves, board, color)
+  def move_limit(possible_moves, board, color, color_check_block1, color_check_block2)
     possible_moves.each do |moves_set|
       moves_set.each_with_index do |moves, index|
         other_chesspiece = get_chesspiece_from_board(moves, board)
 
         # checks if the chess piece is a different color from the player
-        moves_set.slice!((index + 1)..-1) if other_chesspiece.is_a?(Chesspiece) && other_chesspiece.color != color
+        moves_set.slice!((index + 1)..-1) if other_chesspiece.is_a?(Chesspiece) && color_check_block1.call(other_chesspiece, color) # rubocop:disable Layout/LineLength
 
         # checks if the chess piece is the same color as the player
-        moves_set.slice!(index..-1) if other_chesspiece.is_a?(Chesspiece) && other_chesspiece.color == color
+        moves_set.slice!(index..-1) if other_chesspiece.is_a?(Chesspiece) && color_check_block2.call(other_chesspiece, color) # rubocop:disable Layout/LineLength
       end
     end
     possible_moves
