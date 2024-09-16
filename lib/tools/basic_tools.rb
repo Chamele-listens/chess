@@ -56,16 +56,21 @@ module Basic_tools
   end
 
   # For limiting chesspiece move to not move pass a chesspiece without destorying it
-  def move_limit(possible_moves, board, color, color_check_block1, color_check_block2)
+  # uses block to determine which pieces can a chess piece destory
+  def move_limit(possible_moves, board, color, color_check_block1 = @@diff_color_check_block, color_check_block2 = @@same_color_check_block) # rubocop:disable Layout/LineLength
     possible_moves.each do |moves_set|
       moves_set.each_with_index do |moves, index|
         other_chesspiece = get_chesspiece_from_board(moves, board)
 
-        # checks if the chess piece is a different color from the player
-        moves_set.slice!((index + 1)..-1) if other_chesspiece.is_a?(Chesspiece) && color_check_block1.call(other_chesspiece, color) # rubocop:disable Layout/LineLength
+        # checks if the chess piece is a different color from the player (if @@diff_color_check_block is given)
+        if other_chesspiece.is_a?(Chesspiece) && color_check_block1.call(other_chesspiece, color)
+          moves_set.slice!((index + 1)..-1)
+        end
 
-        # checks if the chess piece is the same color as the player
-        moves_set.slice!(index..-1) if other_chesspiece.is_a?(Chesspiece) && color_check_block2.call(other_chesspiece, color) # rubocop:disable Layout/LineLength
+        # checks if the chess piece is the same color as the player (if @@same_color_check_block is given)
+        if other_chesspiece.is_a?(Chesspiece) && color_check_block2.call(other_chesspiece, color)
+          moves_set.slice!(index..-1)
+        end
       end
     end
     possible_moves

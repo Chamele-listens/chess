@@ -92,7 +92,7 @@ class King < Chesspiece
 
     generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
 
-    move_limit(path, board, @color, Basic_tools.diff_color_check, Basic_tools.same_color_check)
+    move_limit(path, board, @color)
 
     opponent_pieces = find_pieces_in_king_path(path, board)
 
@@ -121,7 +121,7 @@ class King < Chesspiece
     opponent_pieces.each do |chesspiece, pos|
       opponent_path = chesspiece.generate_moves(pos)
 
-      move_limit(opponent_path, board, chesspiece.color, Basic_tools.diff_color_check, Basic_tools.same_color_check)
+      move_limit(opponent_path, board, chesspiece.color)
 
       opponent_path.flatten(1).each do |opponent_move|
         if opponent_move == chesspiece_location
