@@ -127,12 +127,7 @@ class King < Chesspiece
 
       move_limit(opponent_path, board, chesspiece.color)
 
-      opponent_path.flatten(1).each do |opponent_move|
-        if opponent_move == chesspiece_location
-          p 'mated'
-          break
-        end
-      end
+      p 'checked' if opponent_path.flatten(1).include?(chesspiece_location)
     end
   end
 
