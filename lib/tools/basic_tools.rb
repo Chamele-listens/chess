@@ -79,13 +79,15 @@ module Basic_tools
   def remove_duplicate_pos(path_set)
     visited_path = []
 
-    path_set.map do |path|
+    output = ''
+
+    output = path_set.map do |path|
       new_path = path.uniq - visited_path
       visited_path += new_path
       new_path
     end
 
-    path_set
+    output.reject!(&:empty?)
   end
 
   def check_chess_type(chess_type)
