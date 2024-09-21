@@ -76,6 +76,18 @@ module Basic_tools
     possible_moves
   end
 
+  def remove_duplicate_pos(path_set)
+    visited_path = []
+
+    path_set.map do |path|
+      new_path = path.uniq - visited_path
+      visited_path += new_path
+      new_path
+    end
+
+    path_set
+  end
+
   def check_chess_type(chess_type)
     white_pieces = ['♚', '♛', '♜', '♝', '♞', '♟']
     black_pieces = ['♔', '♕', '♖', '♗', '♘', '♙']
