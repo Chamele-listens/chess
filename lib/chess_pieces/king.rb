@@ -102,9 +102,11 @@ class King < Chesspiece
 
     find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
 
-    own_chesspiece = find_pieces_in_king_path(path_around_king, board)
+    own_chesspieces = find_pieces_in_king_path(path_around_king, board)
 
-    p own_chesspiece
+    p own_chesspieces
+
+    chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
 
     path
   end
@@ -130,6 +132,32 @@ class King < Chesspiece
       move_limit(opponent_path, board, chesspiece.color)
 
       p 'checked' if opponent_path.flatten(1).include?(chesspiece_location)
+    end
+  end
+
+  def chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
+    own_chesspieces.each do |chesspiece, pos|
+      own_path = chesspiece.generate_moves(pos)
+
+      move_limit(own_path, board, chesspiece.color)
+
+      opponent_pieces.each do |opponent_chesspiece, opp_pos|
+        opponent_path = opponent_chesspiece.generate_moves(opp_pos)
+
+        move_limit(opponent_path, board, opponent_chesspiece.color)
+
+        chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
+      end
+    end
+  end
+
+  def chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
+    own_path.each do |path|
+      opponent_path.each do |opp_path|
+        opp_path.each do |opp_move|
+          p "King is protected from #{opponent_chesspiece.type} at #{opp_move} by #{chesspiece.type}" if path.include?(opp_move) # rubocop:disable Layout/LineLength
+        end
+      end
     end
   end
 
