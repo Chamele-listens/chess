@@ -98,7 +98,7 @@ class King < Chesspiece
 
     p opponent_pieces
 
-    # find_path_to_king(chesspiece_location, opponent_pieces, board)
+    find_path_to_king(chesspiece_location, opponent_pieces, board)
 
     find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
 
@@ -123,6 +123,8 @@ class King < Chesspiece
 
   def find_path_to_king(chesspiece_location, opponent_pieces, board)
     opponent_pieces.each do |chesspiece, pos|
+      next if chesspiece.is_a?(King) && chesspiece.color == @color
+
       opponent_path = chesspiece.generate_moves(pos)
 
       move_limit(opponent_path, board, chesspiece.color)
@@ -139,9 +141,7 @@ class King < Chesspiece
     find_own_piece(path_around_king, ver_pos, hor_pos, board, -> { ver_pos + 0 }, -> { hor_pos + 1 })
     find_own_piece(path_around_king, ver_pos, hor_pos, board, -> { ver_pos + 0 }, -> { hor_pos - 1 })
 
-    path_around_king = remove_duplicate_pos(path_around_king)
-
-    p path_around_king
+    remove_duplicate_pos(path_around_king)
   end
 
   def find_own_piece(path_around_king, ver_pos, hor_pos, board, proc_ver, proc_hor)
