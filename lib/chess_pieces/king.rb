@@ -146,6 +146,8 @@ class King < Chesspiece
 
         move_limit(opponent_path, board, opponent_chesspiece.color)
 
+        opponent_path << [opp_pos]
+
         chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
       end
     end
