@@ -88,11 +88,7 @@ class King < Chesspiece
 
     path = []
 
-    generate_diagonal_moves(ver_pos, hor_pos, path)
-
-    generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
-
-    move_limit(path, board, @color)
+    check_king_surrounding(ver_pos, hor_pos, path, board)
 
     opponent_pieces = find_pieces_in_king_path(path, board)
 
@@ -109,6 +105,14 @@ class King < Chesspiece
     chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
 
     path
+  end
+
+  def check_king_surrounding(ver_pos, hor_pos, path, board)
+    generate_diagonal_moves(ver_pos, hor_pos, path)
+
+    generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
+
+    move_limit(path, board, @color)
   end
 
   def find_pieces_in_king_path(path, board)
