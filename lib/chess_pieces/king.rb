@@ -104,7 +104,9 @@ class King < Chesspiece
 
     p own_chesspieces
 
-    # chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
+    chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
+
+    generate_all_possible_pos
 
     path
   end
@@ -114,7 +116,6 @@ class King < Chesspiece
 
     generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
 
-    
     # 4 generate_digonal_moves to check for knight further from the king
     generate_diagonal_moves(ver_pos, hor_pos - 1, path)
 
@@ -216,5 +217,19 @@ class King < Chesspiece
       end
     end
     own_chesspieces
+  end
+
+  def generate_all_possible_pos(start_pos = [1, 0], all_pos = [])
+    8.times do
+      temp_pos = []
+      8.times do
+        temp_pos << [start_pos[0], start_pos[1] += 1]
+      end
+      all_pos << temp_pos
+      start_pos[1] = 0
+      start_pos[0] += 1
+    end
+
+    p all_pos
   end
 end
