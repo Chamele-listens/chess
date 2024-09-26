@@ -98,11 +98,13 @@ class King < Chesspiece
 
     find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
 
-    own_chesspieces = find_pieces_in_king_path(path_around_king, board)
+    # own_chesspieces = find_pieces_in_king_path(path_around_king, board)
+
+    own_chesspieces = find_own_piece_from_path_set(path_around_king, @color, board)
 
     p own_chesspieces
 
-    chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
+    # chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
 
     path
   end
@@ -112,7 +114,11 @@ class King < Chesspiece
 
     generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
 
+    generate_diagonal_moves(ver_pos, hor_pos - 1, path)
+
     move_limit(path, board, @color)
+
+    remove_duplicate_pos(path)
   end
 
   def find_pieces_in_king_path(path, board)
@@ -133,7 +139,7 @@ class King < Chesspiece
 
       opponent_path = chesspiece.generate_moves(pos)
 
-      move_limit(opponent_path, board, chesspiece.color)
+      move_limit(opponent_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
 
       p 'checked' if opponent_path.flatten(1).include?(chesspiece_location)
     end
@@ -188,6 +194,19 @@ class King < Chesspiece
 
     path_around_king << [[ver_pos, hor_pos]]
 
-    move_limit(path_around_king, board, @color, Basic_tools.same_color_check, Basic_tools.diff_color_check)
+    # move_limit(path_around_king, board, @color, Basic_tools.same_color_check, Basic_tools.diff_color_check)
+  end
+
+  def find_own_piece_from_path_set(path_around_king, color, board)
+    own_chesspieces = {}
+    path_around_king.each do |path_set|
+      path_set.each do |path|
+        square = get_chesspiece_from_board(path, board)
+        next unless square.is_a?(Chesspiece)
+
+        own_chesspieces[square] = path if square.is_a?(Chesspiece) && square.color == color
+      end
+    end
+    own_chesspieces
   end
 end
