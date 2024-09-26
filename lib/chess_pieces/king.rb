@@ -114,7 +114,15 @@ class King < Chesspiece
 
     generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
 
+    
+    # 4 generate_digonal_moves to check for knight further from the king
     generate_diagonal_moves(ver_pos, hor_pos - 1, path)
+
+    generate_diagonal_moves(ver_pos, hor_pos + 1, path)
+
+    generate_diagonal_moves(ver_pos + 1, hor_pos, path)
+
+    generate_diagonal_moves(ver_pos - 1, hor_pos, path)
 
     move_limit(path, board, @color)
 
