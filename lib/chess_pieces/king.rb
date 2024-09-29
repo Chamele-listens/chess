@@ -9,7 +9,9 @@ class King < Chesspiece
   end
 
   def king_move_check(chesspiece_location, chesspiece_distination, board)
-    p checked?(chesspiece_location, board)
+    opponent_status = checked?(chesspiece_location, board)
+
+    p checkmate?(chesspiece_location, opponent_status[0], board)
 
     possible_moves = generate_moves(chesspiece_location)
 
@@ -79,8 +81,6 @@ class King < Chesspiece
   end
 
   def checked?(chesspiece_location, board)
-    path_around_king = []
-
     location = chesspiece_location.dup
 
     ver_pos = location[0]
@@ -94,7 +94,18 @@ class King < Chesspiece
 
     p opponent_pieces
 
-    find_path_to_king(chesspiece_location, opponent_pieces, board)
+    is_checked = find_path_to_king(chesspiece_location, opponent_pieces, board)
+
+    [opponent_pieces, is_checked]
+  end
+
+  def checkmate?(chesspiece_location, opponent_pieces, board)
+    path_around_king = []
+
+    location = chesspiece_location.dup
+
+    ver_pos = location[0]
+    hor_pos = location[1]
 
     find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
 
@@ -107,8 +118,6 @@ class King < Chesspiece
     chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
 
     generate_all_possible_pos
-
-    path
   end
 
   def check_king_surrounding(ver_pos, hor_pos, path, board)
@@ -158,12 +167,12 @@ class King < Chesspiece
     own_chesspieces.each do |chesspiece, pos|
       own_path = chesspiece.generate_moves(pos)
 
-      move_limit(own_path, board, chesspiece.color)
+      move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
 
       opponent_pieces.each do |opponent_chesspiece, opp_pos|
         opponent_path = opponent_chesspiece.generate_moves(opp_pos)
 
-        move_limit(opponent_path, board, opponent_chesspiece.color)
+        move_limit(opponent_path, board, opponent_chesspiece.color) unless chesspiece.is_a?(Knight)
 
         opponent_path << [opp_pos]
 
@@ -230,6 +239,6 @@ class King < Chesspiece
       start_pos[0] += 1
     end
 
-    p all_pos
+    all_pos
   end
 end
