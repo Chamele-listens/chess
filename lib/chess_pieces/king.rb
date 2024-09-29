@@ -100,24 +100,24 @@ class King < Chesspiece
   end
 
   def checkmate?(chesspiece_location, opponent_pieces, board)
-    path_around_king = []
+    # path_around_king = []
 
     location = chesspiece_location.dup
 
     ver_pos = location[0]
     hor_pos = location[1]
 
-    find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
+    # find_all_king_own_piece(path_around_king, ver_pos, hor_pos, board)
+
+    all_pos = generate_all_possible_pos
 
     # own_chesspieces = find_pieces_in_king_path(path_around_king, board)
 
-    own_chesspieces = find_own_piece_from_path_set(path_around_king, @color, board)
+    own_chesspieces = find_own_piece_from_path_set(all_pos, @color, board)
 
     p own_chesspieces
 
     chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
-
-    generate_all_possible_pos
   end
 
   def check_king_surrounding(ver_pos, hor_pos, path, board)
