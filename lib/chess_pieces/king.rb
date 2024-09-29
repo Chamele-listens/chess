@@ -114,6 +114,29 @@ class King < Chesspiece
     p own_chesspieces
 
     chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
+
+    generate_all_opponent_path(opponent_pieces, board)
+  end
+
+  def king_escape?
+  end
+
+  def generate_all_opponent_path(opponent_pieces, board)
+    opponent_path = []
+
+    opponent_pieces.each do |opp, opp_pos|
+      temp_path = opp.generate_moves(opp_pos)
+
+      move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
+
+      opponent_path << temp_path
+
+      opponent_path << [opp_pos]
+    end
+
+    remove_duplicate_pos(opponent_path)
+
+    opponent_path
   end
 
   def check_king_surrounding(ver_pos, hor_pos, path, board)
