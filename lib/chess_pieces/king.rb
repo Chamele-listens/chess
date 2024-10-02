@@ -115,10 +115,15 @@ class King < Chesspiece
 
     chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
 
-    generate_all_opponent_path(opponent_pieces, board)
+    opponent_path = generate_all_opponent_path(opponent_pieces, board)
+
+    king_escape?(chesspiece_location, opponent_path)
   end
 
-  def king_escape?
+  def king_escape?(chesspiece_location, opponent_path)
+    king_moves = generate_moves(chesspiece_location)
+
+    !(king_moves - opponent_path).empty?
   end
 
   def generate_all_opponent_path(opponent_pieces, board)
