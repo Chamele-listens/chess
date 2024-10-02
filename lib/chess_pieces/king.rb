@@ -129,14 +129,14 @@ class King < Chesspiece
 
       move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
 
-      opponent_path << temp_path
+      # p "#{temp_path} from #{opp.type} at #{opp_pos}"
+
+      opponent_path << temp_path.flatten(1)
 
       opponent_path << [opp_pos]
     end
 
-    remove_duplicate_pos(opponent_path)
-
-    opponent_path
+    opponent_path.flatten(1).uniq
   end
 
   def check_king_surrounding(ver_pos, hor_pos, path, board)
