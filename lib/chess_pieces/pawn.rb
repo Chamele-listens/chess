@@ -27,7 +27,11 @@ class Pawn < Chesspiece
 
     possible_moves = []
 
-    generate_one_or_two_up_moves(possible_moves, ver_pos, hor_pos)
+    if @color == 'white'
+      generate_one_or_two_up_moves(possible_moves, ver_pos, hor_pos)
+    elsif @color == 'black'
+      generate_one_or_two_down_moves(possible_moves, ver_pos, hor_pos)
+    end
 
     possible_moves
   end
@@ -38,6 +42,16 @@ class Pawn < Chesspiece
     else
       possible_moves << [ver_pos + 1, hor_pos]
       possible_moves << [ver_pos + 2, hor_pos]
+      @has_move = true
+    end
+  end
+
+  def generate_one_or_two_down_moves(possible_moves, ver_pos, hor_pos)
+    if @has_move == true
+      possible_moves << [ver_pos - 1, hor_pos]
+    else
+      possible_moves << [ver_pos - 1, hor_pos]
+      possible_moves << [ver_pos - 2, hor_pos]
       @has_move = true
     end
   end
