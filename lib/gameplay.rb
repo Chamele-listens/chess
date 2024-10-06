@@ -6,13 +6,22 @@ class Chessboard
     p 'Play a game of chess !'
     show_grid
 
-    turn = 0
+    @turn = 0
 
     loop do
-      p "its #{player_turn(turn)} turn !"
-      player_input = JSON.parse("[#{gets.chomp}]")
-      p "you typed #{player_input} which are #{player_input[0]} and #{player_input[1]}"
-      turn += 1
+      player_input
+    end
+  end
+
+  def player_input
+    p "its #{player_turn(@turn)} turn !"
+    begin
+      input = JSON.parse("[#{gets.chomp}]")
+    rescue StandardError
+      p 'Something went wrong'
+    else
+      p "you typed #{input} which are #{input[0]} and #{input[1]}"
+      @turn += 1
 
       show_grid
     end
