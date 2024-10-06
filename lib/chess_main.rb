@@ -33,4 +33,6 @@ b.move([2, 2], [1, 2])
 # p b.knight_move([4,4],[6,6])
 b.show_grid
 
+b.start
+
 # p b

@@ -1,3 +1,4 @@
+require_relative 'gameplay'
 require_relative 'tools/basic_tools'
 require_relative 'tools/move_set'
 require_relative 'chess_pieces/knight'
