@@ -1,3 +1,5 @@
+require 'json'
+
 # all gameplay functionality for the same chessBoard class
 class Chessboard
   def start
@@ -8,9 +10,11 @@ class Chessboard
 
     loop do
       p "its #{player_turn(turn)} turn !"
-      temp = gets.chomp
-      p "you typed #{temp}"
+      player_input = JSON.parse("[#{gets.chomp}]")
+      p "you typed #{player_input} which are #{player_input[0]} and #{player_input[1]}"
       turn += 1
+
+      show_grid
     end
   end
 
