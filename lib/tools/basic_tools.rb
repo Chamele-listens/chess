@@ -30,8 +30,8 @@ module Basic_tools
     select_grid(user_grid_select, grid_location, starting_square_y.up, &block)
   end
 
-  def add_new_chesspiece(chesspiece_distination, chess_type, color)
-    select_grid(chesspiece_distination) do |square|
+  def add_new_chesspiece(chesspiece_distination, chess_type, color, board = @board)
+    select_grid(chesspiece_distination, [1, 1], board) do |square|
       square.data = case chess_type
                     when '♞', '♘'
                       Knight.new(chess_type, color)

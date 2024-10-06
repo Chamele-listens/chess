@@ -22,9 +22,14 @@ p b.add_new_chesspiece([3, 3], '♟', 'white')
 p b.add_new_chesspiece([5, 6], '♕', 'black')
 p b.add_new_chesspiece([6, 7], '♖', 'black')
 p b.add_new_chesspiece([4, 6], '♘', 'black')
+p b.add_new_chesspiece([6, 2], '♙', 'black')
 # b.move([4, 5], [3, 4])
 # b.move([3, 2], [5, 3])
-b.move([5, 8], [4, 8])
+# b.move([5, 8], [4, 8]) king
+b.move([6, 2], [4, 2])
+b.move([4, 2], [3, 2])
+b.move([3, 2], [2, 2])
+b.move([2, 2], [1, 2])
 # p b.knight_move([4,4],[6,6])
 b.show_grid
 
