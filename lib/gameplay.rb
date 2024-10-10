@@ -10,6 +10,8 @@ class Chessboard
 
     loop do
       temp = player_input
+      next if player_own_piece?(temp) == false
+
       move(temp[0], temp[1])
       show_grid
     end
@@ -23,10 +25,17 @@ class Chessboard
       p 'Something went wrong'
     else
       p "you typed #{input} which are #{input[0]} and #{input[1]}"
-      @turn += 1
 
       input
     end
+  end
+
+  def player_own_piece?(move_pos)
+    p 'ran'
+    return false unless get_chesspiece_from_board(move_pos[0], @board).color == player_turn(@turn)
+
+    @turn += 1
+    p 'Its the player own piece'
   end
 
   def player_turn(turn)
