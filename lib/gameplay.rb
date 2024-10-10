@@ -9,7 +9,9 @@ class Chessboard
     @turn = 0
 
     loop do
-      player_input
+      temp = player_input
+      move(temp[0], temp[1])
+      show_grid
     end
   end
 
@@ -23,7 +25,7 @@ class Chessboard
       p "you typed #{input} which are #{input[0]} and #{input[1]}"
       @turn += 1
 
-      show_grid
+      input
     end
   end
 
