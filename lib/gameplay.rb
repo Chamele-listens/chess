@@ -10,6 +10,7 @@ class Chessboard
 
     loop do
       temp = player_input
+      next if player_input_valid?(temp) == false
       next if player_own_piece?(temp) == false
 
       move(temp[0], temp[1])
@@ -30,8 +31,25 @@ class Chessboard
     end
   end
 
+  def player_input_valid?(move_pos)
+    return false unless move_pos.is_a?(Array)
+
+    return false unless move_pos.any?(Array)
+
+    return false unless move_pos.select { |move| move.is_a?(Array) }.count > 1
+
+    temp = []
+
+    move_pos.each { |move| temp << move.count }
+
+    return false unless temp.uniq.size <= 1
+
+    true
+  end
+
   def player_own_piece?(move_pos)
     p 'ran'
+    return false if get_chesspiece_from_board(move_pos[0], @board) == '[ ]'
     return false unless get_chesspiece_from_board(move_pos[0], @board).color == player_turn(@turn)
 
     @turn += 1
