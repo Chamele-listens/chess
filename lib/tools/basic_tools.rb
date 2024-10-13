@@ -90,6 +90,20 @@ module Basic_tools
     output.reject!(&:empty?)
   end
 
+  def generate_all_possible_pos(start_pos = [1, 0], all_pos = [])
+    8.times do
+      temp_pos = []
+      8.times do
+        temp_pos << [start_pos[0], start_pos[1] += 1]
+      end
+      all_pos << temp_pos
+      start_pos[1] = 0
+      start_pos[0] += 1
+    end
+
+    all_pos
+  end
+
   def check_chess_type(chess_type)
     white_pieces = ['♚', '♛', '♜', '♝', '♞', '♟']
     black_pieces = ['♔', '♕', '♖', '♗', '♘', '♙']

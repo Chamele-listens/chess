@@ -13,6 +13,8 @@ class Chessboard
       next if player_input_valid?(temp) == false
       next if player_own_piece?(temp) == false
 
+      p find_king(@turn)
+
       move(temp[0], temp[1])
       show_grid
     end
@@ -54,6 +56,23 @@ class Chessboard
 
     @turn += 1
     p 'Its the player own piece'
+  end
+
+  def find_king(turn)
+    all_pos = generate_all_possible_pos
+
+    opponent_color = player_turn(turn)
+
+    all_pos.each do |pos_row|
+      pos_row.each do |pos|
+        if get_chesspiece_from_board(pos, @board).is_a?(King) && get_chesspiece_from_board(pos, @board).color == opponent_color # rubocop:disable Layout/LineLength
+          king = get_chesspiece_from_board(pos, @board)
+          return [king, pos]
+        end
+      end
+    end
+
+    nil
   end
 
   def player_turn(turn)
