@@ -12,14 +12,16 @@ class Pawn < Chesspiece
   end
 
   def pawn_move_check(chesspiece_location, chesspiece_distination, board)
-    possible_moves = generate_moves(chesspiece_location, chesspiece_distination, board)
+    possible_moves = generate_moves(chesspiece_location)
+
+    pawn_reach_end_of_board?(chesspiece_location, chesspiece_distination, board)
 
     return true if possible_moves.include?(chesspiece_distination)
 
     false
   end
 
-  def generate_moves(chesspiece_location, chesspiece_distination, board)
+  def generate_moves(chesspiece_location)
     location = chesspiece_location.dup
 
     ver_pos = location[0]
@@ -32,8 +34,6 @@ class Pawn < Chesspiece
     elsif @color == 'black'
       generate_one_or_two_down_moves(possible_moves, ver_pos, hor_pos)
     end
-
-    pawn_reach_end_of_board?(chesspiece_location, chesspiece_distination, board)
 
     possible_moves
   end
