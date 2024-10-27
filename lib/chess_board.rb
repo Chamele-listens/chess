@@ -1,6 +1,7 @@
 require_relative 'gameplay'
 require_relative 'tools/basic_tools'
 require_relative 'tools/move_set'
+require_relative 'tools/checkmate_logic'
 require_relative 'chess_pieces/knight'
 require_relative 'chess_pieces/rook'
 require_relative 'chess_pieces/bishop'
@@ -22,6 +23,7 @@ end
 # Chessboard class for manipulating the board and the chess pieces on it
 class Chessboard
   include Basic_tools
+  include Checkmate_logic
   attr_accessor :board
 
   def initialize(board = nil)
