@@ -24,6 +24,7 @@ end
 class Chessboard
   include Basic_tools
   include Checkmate_logic
+  include Move_set
   attr_accessor :board
 
   def initialize(board = nil)

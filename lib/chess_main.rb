@@ -30,10 +30,10 @@ b.move([6, 2], [4, 2])
 b.move([4, 2], [3, 2])
 b.move([3, 2], [2, 2])
 # b.move([2, 2], [1, 2])
-b.move([5, 8], [4, 8])
+# b.move([5, 8], [4, 8])
 # p b.knight_move([4,4],[6,6])
 b.show_grid
 
-# b.start
+b.start
 
 # p b

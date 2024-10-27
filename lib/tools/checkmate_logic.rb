@@ -12,7 +12,7 @@ module Checkmate_logic
 
     opponent_pieces = find_pieces_in_king_path(path, board)
 
-    p opponent_pieces
+    # p opponent_pieces
 
     is_checked = find_path_to_king(chesspiece_location, opponent_pieces, board)
 
@@ -103,7 +103,7 @@ module Checkmate_logic
 
       move_limit(opponent_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
 
-      p 'checked' if opponent_path.flatten(1).include?(chesspiece_location)
+      p 'King is in check' if opponent_path.flatten(1).include?(chesspiece_location)
     end
   end
 

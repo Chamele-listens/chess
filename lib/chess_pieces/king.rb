@@ -10,9 +10,9 @@ class King < Chesspiece
   end
 
   def king_move_check(chesspiece_location, chesspiece_distination, board)
-    opponent_status = checked?(chesspiece_location, board)
+    # opponent_status = checked?(chesspiece_location, board)
 
-    p checkmate?(chesspiece_location, opponent_status[0], board)
+    # p checkmate?(chesspiece_location, opponent_status[0], board)
 
     possible_moves = generate_moves(chesspiece_location)
 
