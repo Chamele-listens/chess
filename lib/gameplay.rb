@@ -9,11 +9,12 @@ class Chessboard
     @turn = 0
 
     loop do
+      player_king = find_king(@turn)
+      checked?(player_king[1], @board)
+
       temp = player_input
       next if player_input_valid?(temp) == false
       next if player_own_piece?(temp) == false
-
-      p find_king(@turn)
 
       move(temp[0], temp[1])
       show_grid
