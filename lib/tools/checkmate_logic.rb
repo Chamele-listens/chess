@@ -41,7 +41,7 @@ module Checkmate_logic
   end
 
   def king_escape?(chesspiece_location, opponent_path)
-    king_moves = generate_moves(chesspiece_location)
+    king_moves = generate_king_moves(chesspiece_location)
 
     !(king_moves - opponent_path).empty?
   end
@@ -103,7 +103,10 @@ module Checkmate_logic
 
       move_limit(opponent_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
 
-      p 'King is in check' if opponent_path.flatten(1).include?(chesspiece_location)
+      if opponent_path.flatten(1).include?(chesspiece_location)
+        p 'King is in check'
+        return true
+      end
     end
   end
 
