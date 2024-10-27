@@ -10,7 +10,9 @@ class Chessboard
 
     loop do
       player_king = find_king(@turn)
-      checked?(player_king[1], @board)
+      opponent_status = checked?(player_king[1], @board, player_turn(@turn))
+      p opponent_status
+      # checkmate?(player_king[1], opponent_status[0], @board) if opponent_status[1] == true
 
       temp = player_input
       next if player_input_valid?(temp) == false

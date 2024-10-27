@@ -1,6 +1,6 @@
 # module containing all logic for checking if a king is in checkmate
 module Checkmate_logic
-  def checked?(chesspiece_location, board)
+  def checked?(chesspiece_location, board, color)
     location = chesspiece_location.dup
 
     ver_pos = location[0]
@@ -8,13 +8,13 @@ module Checkmate_logic
 
     path = []
 
-    check_king_surrounding(ver_pos, hor_pos, path, board)
+    check_king_surrounding(ver_pos, hor_pos, path, board, color)
 
     opponent_pieces = find_pieces_in_king_path(path, board)
 
     # p opponent_pieces
 
-    is_checked = find_path_to_king(chesspiece_location, opponent_pieces, board)
+    is_checked = find_path_to_king(chesspiece_location, opponent_pieces, board, color)
 
     [opponent_pieces, is_checked]
   end
@@ -64,7 +64,7 @@ module Checkmate_logic
     opponent_path.flatten(1).uniq
   end
 
-  def check_king_surrounding(ver_pos, hor_pos, path, board)
+  def check_king_surrounding(ver_pos, hor_pos, path, board, color)
     generate_diagonal_moves(ver_pos, hor_pos, path)
 
     generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
@@ -78,7 +78,7 @@ module Checkmate_logic
 
     generate_diagonal_moves(ver_pos - 1, hor_pos, path)
 
-    move_limit(path, board, @color)
+    move_limit(path, board, color)
 
     remove_duplicate_pos(path)
   end
@@ -95,9 +95,9 @@ module Checkmate_logic
     opponent_pieces
   end
 
-  def find_path_to_king(chesspiece_location, opponent_pieces, board)
+  def find_path_to_king(chesspiece_location, opponent_pieces, board, color)
     opponent_pieces.each do |chesspiece, pos|
-      next if chesspiece.is_a?(King) && chesspiece.color == @color
+      next if chesspiece.is_a?(King) && chesspiece.color == color
 
       opponent_path = chesspiece.generate_moves(pos)
 
