@@ -19,7 +19,7 @@ module Checkmate_logic
     [opponent_pieces, is_checked]
   end
 
-  def checkmate?(chesspiece_location, opponent_pieces, board)
+  def checkmate?(chesspiece_location, opponent_pieces, board, color)
     # path_around_king = []
 
     location = chesspiece_location.dup
@@ -29,7 +29,7 @@ module Checkmate_logic
 
     all_pos = generate_all_possible_pos
 
-    own_chesspieces = find_own_piece_from_path_set(all_pos, @color, board)
+    own_chesspieces = find_own_piece_from_path_set(all_pos, color, board)
 
     p own_chesspieces
 
