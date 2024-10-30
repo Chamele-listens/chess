@@ -31,9 +31,11 @@ module Checkmate_logic
 
     own_chesspieces = find_own_piece_from_path_set(all_pos, color, board)
 
+    own_chesspieces.reject! { |chesspiece| chesspiece.is_a?(King) }
+
     # p own_chesspieces
 
-    return nil if chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board) == true
+    return false if chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board) == true
 
     opponent_path = generate_all_opponent_path(opponent_pieces, board)
 
@@ -42,8 +44,8 @@ module Checkmate_logic
 
   def king_escape?(chesspiece_location, opponent_path)
     king_moves = generate_king_moves(chesspiece_location)
-
-    !(king_moves - opponent_path).empty?
+    # p "#{king_moves - opponent_path}"
+    (king_moves - opponent_path).empty?
   end
 
   def generate_all_opponent_path(opponent_pieces, board)
@@ -126,13 +128,14 @@ module Checkmate_logic
         return true if chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece) == true
       end
     end
+    false
   end
 
   def chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
     own_path.each do |path|
       opponent_path.each do |opp_path|
         opp_path.each do |opp_move|
-          # p "King is protected from #{opponent_chesspiece.type} at #{opp_move} by #{chesspiece.type}" if path.include?(opp_move) # rubocop:disable Layout/LineLength
+          p "King is protected from #{opponent_chesspiece.type} at #{opp_move} by #{chesspiece.type}" if path.include?(opp_move) # rubocop:disable Layout/LineLength
           return true if path.include?(opp_move)
         end
       end

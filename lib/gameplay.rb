@@ -6,12 +6,14 @@ class Chessboard
     p 'Play a game of chess !'
     show_grid
 
-    @turn = 0
+    @turn = 1
 
     loop do
       player_king = find_king(@turn)
       opponent_status = checked?(player_king[1], @board, player_turn(@turn))
-      p checkmate?(player_king[1], opponent_status[0], @board, player_turn(@turn)) if opponent_status[1] == true
+      checkmate_status = checkmate?(player_king[1], opponent_status[0], @board, player_turn(@turn)) if opponent_status[1] == true # rubocop:disable Layout/LineLength
+      p checkmate_status
+      break if checkmate_status == true
 
       temp = player_input
       next if player_input_valid?(temp) == false
@@ -20,6 +22,7 @@ class Chessboard
       move(temp[0], temp[1])
       show_grid
     end
+    p 'Checkmate'
   end
 
   def player_input
