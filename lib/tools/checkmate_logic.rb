@@ -35,7 +35,7 @@ module Checkmate_logic
 
     # p own_chesspieces
 
-    return false if chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board) == true
+    return false if chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, chesspiece_location) == true
 
     opponent_path = generate_all_opponent_path(opponent_pieces, board)
 
@@ -112,11 +112,13 @@ module Checkmate_logic
     end
   end
 
-  def chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board)
+  def chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, king_location)
     own_chesspieces.each do |chesspiece, pos|
       own_path = chesspiece.generate_moves(pos)
 
       move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
+
+      cutoff_bishop_moves(own_path, pos, king_location)
 
       opponent_pieces.each do |opponent_chesspiece, opp_pos|
         opponent_path = opponent_chesspiece.generate_moves(opp_pos)
@@ -129,6 +131,19 @@ module Checkmate_logic
       end
     end
     false
+  end
+
+  def cutoff_bishop_moves(chess_path, pos, king_pos)
+    king_hor_pos = king_pos[1]
+
+    ver_pos = pos[0]
+    hor_pos = pos[1]
+
+    if king_hor_pos[1] < hor_pos
+      chess_path.slice!(2, 3)
+    elsif king_hor_pos[1] > hor_pos
+      chess_path.slice!(0, 2)
+    end
   end
 
   def chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
