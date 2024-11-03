@@ -125,6 +125,8 @@ module Checkmate_logic
 
         opponent_path = cutoff_bishop_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Bishop)
 
+        opponent_path = cutoff_rook_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Rook)
+
         opponent_path << [opp_pos]
 
         return true if chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece) == true
@@ -148,6 +150,25 @@ module Checkmate_logic
       chess_path = chess_path.slice(2)
     elsif king_hor_pos > hor_pos && king_ver_pos < ver_pos # get lower_right
       chess_path = chess_path.slice(1)
+    end
+    [chess_path]
+  end
+
+  def cutoff_rook_moves(chess_path, pos, king_pos)
+    king_ver_pos = king_pos[0]
+    king_hor_pos = king_pos[1]
+
+    ver_pos = pos[0]
+    hor_pos = pos[1]
+
+    if king_hor_pos > hor_pos # get right
+      chess_path = chess_path.slice(0)
+    elsif king_hor_pos < hor_pos # get left
+      chess_path = chess_path.slice(1)
+    elsif king_ver_pos > ver_pos # get up
+      chess_path = chess_path.slice(2)
+    elsif king_ver_pos < ver_pos # get down
+      chess_path = chess_path.slice(3)
     end
     [chess_path]
   end
