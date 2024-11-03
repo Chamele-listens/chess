@@ -127,6 +127,8 @@ module Checkmate_logic
 
         opponent_path = cutoff_rook_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Rook)
 
+        cutoff_queen_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Queen)
+
         opponent_path << [opp_pos]
 
         return true if chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece) == true
@@ -171,6 +173,23 @@ module Checkmate_logic
       chess_path = chess_path.slice(3)
     end
     [chess_path]
+  end
+
+  def cutoff_queen_moves(chess_path, pos, king_pos)
+    p chess_path
+    temp = []
+
+    king_ver_pos = king_pos[0]
+    king_hor_pos = king_pos[1]
+
+    ver_pos = pos[0]
+    hor_pos = pos[1]
+
+    chess_path.each do |path|
+      temp << path.select { |move| move[0] < ver_pos }
+    end
+
+    p temp
   end
 
   def chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
