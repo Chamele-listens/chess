@@ -118,12 +118,12 @@ module Checkmate_logic
 
       move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
 
-      cutoff_bishop_moves(own_path, pos, king_location)
-
       opponent_pieces.each do |opponent_chesspiece, opp_pos|
         opponent_path = opponent_chesspiece.generate_moves(opp_pos)
 
         move_limit(opponent_path, board, opponent_chesspiece.color) unless chesspiece.is_a?(Knight)
+
+        opponent_path = cutoff_bishop_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Bishop)
 
         opponent_path << [opp_pos]
 
@@ -134,16 +134,22 @@ module Checkmate_logic
   end
 
   def cutoff_bishop_moves(chess_path, pos, king_pos)
+    king_ver_pos = king_pos[0]
     king_hor_pos = king_pos[1]
 
     ver_pos = pos[0]
     hor_pos = pos[1]
 
-    if king_hor_pos[1] < hor_pos
-      chess_path.slice!(2, 3)
-    elsif king_hor_pos[1] > hor_pos
-      chess_path.slice!(0, 2)
+    if king_hor_pos < hor_pos && king_ver_pos < ver_pos # get lower_left
+      chess_path = chess_path.slice(3)
+    elsif king_hor_pos > hor_pos && king_ver_pos > ver_pos # get upper_right
+      chess_path = chess_path.slice(0)
+    elsif king_hor_pos < hor_pos && king_ver_pos > ver_pos # get upper_left
+      chess_path = chess_path.slice(2)
+    elsif king_hor_pos > hor_pos && king_ver_pos < ver_pos # get lower_right
+      chess_path = chess_path.slice(1)
     end
+    [chess_path]
   end
 
   def chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
