@@ -176,9 +176,9 @@ module Checkmate_logic
   end
 
   def cutoff_queen_moves(chess_path, pos, king_pos)
-    p chess_path
+    # p chess_path
     temp = []
-
+    # not done yet
     king_ver_pos = king_pos[0]
     king_hor_pos = king_pos[1]
 
@@ -186,7 +186,15 @@ module Checkmate_logic
     hor_pos = pos[1]
 
     chess_path.each do |path|
-      temp << path.select { |move| move[0] < ver_pos }
+      if king_ver_pos < ver_pos && king_hor_pos == hor_pos
+        temp << path.select { |move| move[0] < ver_pos && move[1] == hor_pos }
+      elsif king_ver_pos > ver_pos && king_hor_pos == hor_pos
+        temp << path.select { |move| move[0] > ver_pos && move[1] == hor_pos }
+      elsif king_ver_pos == ver_pos && king_hor_pos > hor_pos
+        temp << path.select { |move| move[0] == ver_pos && move[1] > hor_pos }
+      elsif king_ver_pos == ver_pos && king_hor_pos < hor_pos
+        temp << path.select { |move| move[0] == ver_pos && move[1] < hor_pos }
+      end
     end
 
     p temp
