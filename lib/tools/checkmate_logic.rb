@@ -186,7 +186,7 @@ module Checkmate_logic
     hor_pos = pos[1]
 
     chess_path.each do |path|
-      if king_hor_pos == hor_pos
+      if king_hor_pos == hor_pos # horizontal
         if king_ver_pos < ver_pos
           temp << path.select { |move| move[0] < ver_pos && move[1] == hor_pos }
         elsif king_ver_pos > ver_pos
@@ -194,11 +194,27 @@ module Checkmate_logic
         end
       end
 
-      if king_ver_pos == ver_pos
+      if king_ver_pos == ver_pos # vertical
         if king_hor_pos > hor_pos
           temp << path.select { |move| move[0] == ver_pos && move[1] > hor_pos }
         elsif king_hor_pos < hor_pos
           temp << path.select { |move| move[0] == ver_pos && move[1] < hor_pos }
+        end
+      end
+
+      if king_hor_pos > hor_pos # lower and upper right
+        if king_ver_pos < ver_pos
+          temp << path.select { |move| move[0] < ver_pos && move[1] > hor_pos }
+        elsif king_ver_pos > ver_pos
+          temp << path.select { |move| move[0] > ver_pos && move[1] > hor_pos }
+        end
+      end
+
+      if king_hor_pos < hor_pos # lower and upper left
+        if king_ver_pos < ver_pos
+          temp << path.select { |move| move[0] < ver_pos && move[1] < hor_pos }
+        elsif king_ver_pos > ver_pos
+          temp << path.select { |move| move[0] > ver_pos && move[1] < hor_pos }
         end
       end
     end
