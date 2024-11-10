@@ -127,7 +127,7 @@ module Checkmate_logic
 
         opponent_path = cutoff_rook_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Rook)
 
-        cutoff_queen_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Queen)
+        opponent_path = cutoff_queen_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Queen)
 
         opponent_path << [opp_pos]
 
@@ -176,7 +176,7 @@ module Checkmate_logic
   end
 
   def cutoff_queen_moves(chess_path, pos, king_pos)
-    # p chess_path
+    p chess_path
     temp = []
     # not done yet
     king_ver_pos = king_pos[0]
@@ -186,14 +186,20 @@ module Checkmate_logic
     hor_pos = pos[1]
 
     chess_path.each do |path|
-      if king_ver_pos < ver_pos && king_hor_pos == hor_pos
-        temp << path.select { |move| move[0] < ver_pos && move[1] == hor_pos }
-      elsif king_ver_pos > ver_pos && king_hor_pos == hor_pos
-        temp << path.select { |move| move[0] > ver_pos && move[1] == hor_pos }
-      elsif king_ver_pos == ver_pos && king_hor_pos > hor_pos
-        temp << path.select { |move| move[0] == ver_pos && move[1] > hor_pos }
-      elsif king_ver_pos == ver_pos && king_hor_pos < hor_pos
-        temp << path.select { |move| move[0] == ver_pos && move[1] < hor_pos }
+      if king_hor_pos == hor_pos
+        if king_ver_pos < ver_pos
+          temp << path.select { |move| move[0] < ver_pos && move[1] == hor_pos }
+        elsif king_ver_pos > ver_pos
+          temp << path.select { |move| move[0] > ver_pos && move[1] == hor_pos }
+        end
+      end
+
+      if king_ver_pos == ver_pos
+        if king_hor_pos > hor_pos
+          temp << path.select { |move| move[0] == ver_pos && move[1] > hor_pos }
+        elsif king_hor_pos < hor_pos
+          temp << path.select { |move| move[0] == ver_pos && move[1] < hor_pos }
+        end
       end
     end
 
