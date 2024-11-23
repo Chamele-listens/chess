@@ -16,6 +16,8 @@ module Checkmate_logic
 
     is_checked = find_path_to_king(chesspiece_location, opponent_pieces, board, color)
 
+    opponent_pieces = remove_non_dangerous_piece(chesspiece_location, opponent_pieces)
+
     [opponent_pieces, is_checked]
   end
 
@@ -110,6 +112,18 @@ module Checkmate_logic
         return true
       end
     end
+  end
+
+  def remove_non_dangerous_piece(chesspiece_location, opponent_pieces)
+    dangerouse_piece = {}
+    opponent_pieces.each do |chesspiece, pos|
+      temp_moves = chesspiece.generate_moves(pos)
+      temp_moves.flatten!(1)
+
+      # p 'King is in danger !' if temp_moves.include?(chesspiece_location)
+      dangerouse_piece[chesspiece] = pos if temp_moves.include?(chesspiece_location)
+    end
+    dangerouse_piece
   end
 
   def chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, king_location)
