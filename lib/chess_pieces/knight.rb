@@ -40,7 +40,7 @@ class Knight < Chesspiece
     possible_moves << [ver_pos + 1, hor_pos - 2]
 
     # .select {|i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0)}
-    possible_moves.select! { |i| (i[0] < 8 && i[1] < 8) && (i[0] > 0 && i[1] > 0) }
+    possible_moves.select! { |i| (i[0] <= 8 && i[1] <= 8) && (i[0] > 0 && i[1] > 0) }
 
     # p "knight moves are #{possible_moves}"
 

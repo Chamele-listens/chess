@@ -16,7 +16,7 @@ class Pawn < Chesspiece
 
     pawn_reach_end_of_board?(chesspiece_location, chesspiece_distination, board)
 
-    return true if possible_moves.include?(chesspiece_distination)
+    return true if possible_moves.flatten(1).include?(chesspiece_distination)
 
     false
   end
@@ -35,7 +35,7 @@ class Pawn < Chesspiece
       generate_one_or_two_down_moves(possible_moves, ver_pos, hor_pos)
     end
 
-    possible_moves
+    [possible_moves]
   end
 
   def generate_one_or_two_up_moves(possible_moves, ver_pos, hor_pos)
