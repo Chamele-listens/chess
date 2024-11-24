@@ -37,7 +37,11 @@ module Checkmate_logic
 
     # p own_chesspieces
 
-    return false if chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, chesspiece_location) == true
+    own_chesspieces = chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, chesspiece_location)
+
+    return false if opponent_pieces.count <= own_chesspieces.count
+
+    p 'ran'
 
     opponent_path = generate_all_opponent_path(opponent_pieces, board)
 
@@ -56,7 +60,7 @@ module Checkmate_logic
     opponent_pieces.each do |opp, opp_pos|
       temp_path = opp.generate_moves(opp_pos)
 
-      move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
+      # move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
 
       # p "#{temp_path} from #{opp.type} at #{opp_pos}"
 
@@ -163,7 +167,7 @@ module Checkmate_logic
       end
     end
     p chesspiece_protect_king
-    false
+    chesspiece_protect_king
   end
 
   def cutoff_bishop_moves(chess_path, pos, king_pos)
