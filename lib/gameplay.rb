@@ -94,14 +94,26 @@ class Chessboard
   def create_new_game(board)
     create_pawn_row([2, 1], '♟', 'white', board)
     create_pawn_row([7, 1], '♙', 'black', board)
+    create_player_row([1, 1], ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'], 'white', board)
+    create_player_row([8, 1], ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'], 'black', board)
   end
 
+  # TODO: fix pawn because it should not be able to destory anything in front of it
   def create_pawn_row(start_pos, pawn, color, board)
     ver_pos = start_pos[0]
     hor_pos = start_pos[1]
 
     8.times do |pos|
       add_new_chesspiece([ver_pos, hor_pos + pos], pawn, color, board)
+    end
+  end
+
+  def create_player_row(start_pos, chesspiece, color, board)
+    ver_pos = start_pos[0]
+    hor_pos = start_pos[1]
+
+    chesspiece.each_with_index do |piece, pos|
+      add_new_chesspiece([ver_pos, hor_pos + pos], piece, color, board)
     end
   end
 end
