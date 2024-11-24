@@ -4,13 +4,17 @@ require 'json'
 class Chessboard
   def start
     p 'Play a game of chess !'
-    show_grid
 
     @turn = 1
+
+    create_new_game(@board)
+
+    show_grid
 
     loop do
       player_king = find_king(@turn)
       opponent_status = checked?(player_king[1], @board, player_turn(@turn))
+      p opponent_status
       checkmate_status = checkmate?(player_king[1], opponent_status[0], @board, player_turn(@turn)) if opponent_status[1] == true # rubocop:disable Layout/LineLength
       p checkmate_status
       break if checkmate_status == true
@@ -85,5 +89,19 @@ class Chessboard
     return player[0] if turn.even?
 
     player[1] if turn.odd?
+  end
+
+  def create_new_game(board)
+    create_pawn_row([2, 1], '♟', 'white', board)
+    create_pawn_row([7, 1], '♙', 'black', board)
+  end
+
+  def create_pawn_row(start_pos, pawn, color, board)
+    ver_pos = start_pos[0]
+    hor_pos = start_pos[1]
+
+    8.times do |pos|
+      add_new_chesspiece([ver_pos, hor_pos + pos], pawn, color, board)
+    end
   end
 end
