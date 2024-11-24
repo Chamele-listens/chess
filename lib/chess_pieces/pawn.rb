@@ -14,6 +14,8 @@ class Pawn < Chesspiece
   def pawn_move_check(chesspiece_location, chesspiece_distination, board)
     possible_moves = generate_moves(chesspiece_location)
 
+    return false if get_chesspiece_from_board(possible_moves.flatten(1).last, board).is_a?(Chesspiece)
+
     pawn_reach_end_of_board?(chesspiece_location, chesspiece_distination, board)
 
     return true if possible_moves.flatten(1).include?(chesspiece_distination)
