@@ -45,12 +45,12 @@ module Checkmate_logic
 
     opponent_path = generate_all_opponent_path(opponent_pieces, board)
 
-    king_escape?(chesspiece_location, opponent_path)
+    king_escape?(chesspiece_location, opponent_path, board)
   end
 
-  def king_escape?(chesspiece_location, opponent_path)
+  def king_escape?(chesspiece_location, opponent_path, board)
     king_moves = generate_king_moves(chesspiece_location)
-    # p "#{king_moves - opponent_path}"
+    king_moves.reject! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) }
     (king_moves - opponent_path).empty?
   end
 
