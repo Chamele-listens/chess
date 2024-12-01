@@ -5,26 +5,27 @@ class Chessboard
   def start
     p 'Play a game of chess !'
 
-    @turn = 1
+    @turn = 0
 
     create_new_game(@board)
 
-    show_grid
-
     loop do
+      show_grid
+
       player_king = find_king(@turn)
       opponent_status = checked?(player_king[1], @board, player_turn(@turn))
-      p opponent_status
+      # p opponent_status
       checkmate_status = checkmate?(player_king[1], opponent_status[0], @board, player_turn(@turn)) if opponent_status[1] == true # rubocop:disable Layout/LineLength
-      p checkmate_status
+      # p checkmate_status
       break if checkmate_status == true
 
       temp = player_input
       next if player_input_valid?(temp) == false
       next if player_own_piece?(temp) == false
 
-      move(temp[0], temp[1])
-      show_grid
+      next if move(temp[0], temp[1]).nil?
+
+      @turn += 1
     end
     p 'Checkmate'
   end
@@ -36,7 +37,7 @@ class Chessboard
     rescue StandardError
       p 'Something went wrong'
     else
-      p "you typed #{input} which are #{input[0]} and #{input[1]}"
+      # p "you typed #{input} which are #{input[0]} and #{input[1]}"
 
       input
     end
@@ -63,7 +64,6 @@ class Chessboard
     return false if get_chesspiece_from_board(move_pos[0], @board) == '[ ]'
     return false unless get_chesspiece_from_board(move_pos[0], @board).color == player_turn(@turn)
 
-    @turn += 1
     p 'Its the player own piece'
   end
 
