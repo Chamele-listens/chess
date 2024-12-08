@@ -18,6 +18,12 @@ class Pawn < Chesspiece
 
     pawn_reach_end_of_board?(chesspiece_location, chesspiece_distination, board)
 
+    # p possible_moves
+
+    possible_moves = chesspiece_nearby_white_piece(possible_moves, chesspiece_location, board)
+
+    # p possible_moves
+
     return true if possible_moves.flatten(1).include?(chesspiece_distination)
 
     false
@@ -58,6 +64,22 @@ class Pawn < Chesspiece
       possible_moves << [ver_pos - 2, hor_pos]
       @has_move = true
     end
+  end
+
+  def chesspiece_nearby_white_piece(possible_moves, chesspiece_location, board)
+    ver_pos = chesspiece_location[0]
+    hor_pos = chesspiece_location[1]
+
+    both_side = []
+
+    both_side << [ver_pos + 1, hor_pos + 1] # right side
+    both_side << [ver_pos + 1, hor_pos - 1] # left side
+
+    both_side.select! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) && get_chesspiece_from_board(move, board).color == 'black' } # rubocop:disable Layout/LineLength
+
+    possible_moves << both_side
+
+    [possible_moves.flatten(1)]
   end
 
   def pawn_reach_end_of_board?(chesspiece_location, chesspiece_distination, board)
