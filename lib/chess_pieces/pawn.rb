@@ -20,7 +20,7 @@ class Pawn < Chesspiece
 
     # p possible_moves
 
-    possible_moves = oppoent_chesspiece_nearby_own_piece(possible_moves, chesspiece_location, board)
+    possible_moves = opponent_chesspiece_nearby_own_piece(possible_moves, chesspiece_location, board)
 
     p possible_moves
 
@@ -66,7 +66,7 @@ class Pawn < Chesspiece
     end
   end
 
-  def oppoent_chesspiece_nearby_own_piece(possible_moves, chesspiece_location, board)
+  def opponent_chesspiece_nearby_own_piece(possible_moves, chesspiece_location, board)
     ver_pos = chesspiece_location[0]
     hor_pos = chesspiece_location[1]
 
