@@ -39,6 +39,8 @@ module Checkmate_logic
 
     own_chesspieces = chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, chesspiece_location)
 
+    own_chesspieces = remove_pawn_that_cant_protect_king(own_chesspieces, color, board)
+
     return false if opponent_pieces.count <= own_chesspieces.count
 
     p 'ran'
@@ -128,6 +130,21 @@ module Checkmate_logic
       dangerouse_piece[chesspiece] = pos if temp_moves.include?(chesspiece_location)
     end
     dangerouse_piece
+  end
+
+  def remove_pawn_that_cant_protect_king(own_chesspieces, color, board)
+    own_chesspieces.each do |pawn, pos|
+      next unless pawn.is_a?(Pawn)
+
+      ver_pos = pos[0]
+      hor_pos = pos[1]
+
+      pos = [ver_pos + 1, hor_pos] if color == 'white'
+      pos = [ver_pos - 1, hor_pos] if color == 'black'
+
+      own_chesspieces.delete(pawn) if get_chesspiece_from_board(pos, board).is_a?(Chesspiece)
+    end
+    p own_chesspieces
   end
 
   def chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, king_location)
