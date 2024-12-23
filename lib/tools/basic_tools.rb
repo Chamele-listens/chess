@@ -104,6 +104,42 @@ module Basic_tools
     all_pos
   end
 
+  # method to check if pawn can attack nearby piece
+  def opponent_chesspiece_nearby_own_piece(possible_moves, chesspiece_location, board)
+    ver_pos = chesspiece_location[0]
+    hor_pos = chesspiece_location[1]
+
+    both_side = []
+
+    current_pawn = get_chesspiece_from_board(chesspiece_location, board)
+
+    if current_pawn.color == 'white'
+      possible_moves = attack_black_piece(both_side, ver_pos, hor_pos, possible_moves, board)
+    elsif current_pawn.color == 'black'
+      possible_moves = attack_white_piece(both_side, ver_pos, hor_pos, possible_moves, board)
+    end
+
+    [possible_moves.flatten(1)]
+  end
+
+  def attack_black_piece(both_side, ver_pos, hor_pos, possible_moves, board)
+    both_side << [ver_pos + 1, hor_pos + 1] # right side
+    both_side << [ver_pos + 1, hor_pos - 1] # left side
+
+    both_side.select! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) && get_chesspiece_from_board(move, board).color == 'black' } # rubocop:disable Layout/LineLength
+
+    possible_moves << both_side
+  end
+
+  def attack_white_piece(both_side, ver_pos, hor_pos, possible_moves, board)
+    both_side << [ver_pos - 1, hor_pos + 1] # right side
+    both_side << [ver_pos - 1, hor_pos - 1] # left side
+
+    both_side.select! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) && get_chesspiece_from_board(move, board).color == 'white' } # rubocop:disable Layout/LineLength
+
+    possible_moves << both_side
+  end
+
   def check_chess_type(chess_type)
     white_pieces = ['♚', '♛', '♜', '♝', '♞', '♟']
     black_pieces = ['♔', '♕', '♖', '♗', '♘', '♙']
