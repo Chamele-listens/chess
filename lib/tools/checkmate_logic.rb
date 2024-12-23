@@ -136,6 +136,8 @@ module Checkmate_logic
     own_chesspieces.each do |chesspiece, pos|
       own_path = chesspiece.generate_moves(pos)
 
+      own_path = opponent_chesspiece_nearby_own_piece(own_path, pos, board) if chesspiece.is_a?(Pawn)
+
       move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
 
       opponent_pieces.each do |opponent_chesspiece, opp_pos|
