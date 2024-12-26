@@ -32,15 +32,14 @@ class Chessboard
 
   def player_input
     p "its #{player_turn(@turn)} turn !"
-    begin
-      input = JSON.parse("[#{gets.chomp}]")
-    rescue StandardError
-      p 'Something went wrong'
-    else
-      # p "you typed #{input} which are #{input[0]} and #{input[1]}"
 
-      input
-    end
+    input = gets.chomp
+
+    proper_input = []
+
+    input.split('').each { |num| proper_input << num.to_i }
+
+    [proper_input[0..1], proper_input[2..3]]
   end
 
   def player_input_valid?(move_pos)
