@@ -18,13 +18,12 @@ class Pawn < Chesspiece
 
     pawn_reach_end_of_board?(chesspiece_location, chesspiece_distination, board)
 
-    # p possible_moves
-
     possible_moves = opponent_chesspiece_nearby_own_piece(possible_moves, chesspiece_location, board)
 
-    p possible_moves
-
-    return true if possible_moves.flatten(1).include?(chesspiece_distination)
+    if possible_moves.flatten(1).include?(chesspiece_distination)
+      @has_move = true
+      return true
+    end
 
     false
   end
@@ -52,7 +51,6 @@ class Pawn < Chesspiece
     else
       possible_moves << [ver_pos + 1, hor_pos]
       possible_moves << [ver_pos + 2, hor_pos]
-      @has_move = true
     end
   end
 
@@ -62,7 +60,6 @@ class Pawn < Chesspiece
     else
       possible_moves << [ver_pos - 1, hor_pos]
       possible_moves << [ver_pos - 2, hor_pos]
-      @has_move = true
     end
   end
 
