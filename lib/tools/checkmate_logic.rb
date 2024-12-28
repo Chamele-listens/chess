@@ -8,15 +8,15 @@ module Checkmate_logic
 
     path = []
 
-    check_king_surrounding(ver_pos, hor_pos, path, board, color)
+    path = generate_all_possible_pos
 
     opponent_pieces = find_pieces_in_king_path(path, board)
 
     # p opponent_pieces
 
-    is_checked = find_path_to_king(chesspiece_location, opponent_pieces, board, color)
+    opponent_pieces.reject! { |chesspiece| chesspiece.color == color }
 
-    opponent_pieces = remove_non_dangerous_piece(chesspiece_location, opponent_pieces)
+    is_checked = find_path_to_king(chesspiece_location, opponent_pieces, board, color)
 
     [opponent_pieces, is_checked]
   end
@@ -50,8 +50,21 @@ module Checkmate_logic
     king_escape?(chesspiece_location, opponent_path, board)
   end
 
+  def stalemate?(opponent_path, chesspiece_location)
+    king_moves = generate_king_moves(chesspiece_location)
+    king_moves.reject! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) }
+
+    if !opponent_path.include?(chesspiece_location) && (king_moves - opponent_path).empty?
+      p 'stalemate'
+      true
+    else
+      p 'nothing happen'
+    end
+  end
+
   def king_escape?(chesspiece_location, opponent_path, board)
     king_moves = generate_king_moves(chesspiece_location)
+    king_moves << chesspiece_location
     king_moves.reject! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) }
     (king_moves - opponent_path).empty?
   end
@@ -72,25 +85,6 @@ module Checkmate_logic
     end
 
     opponent_path.flatten(1).uniq
-  end
-
-  def check_king_surrounding(ver_pos, hor_pos, path, board, color)
-    generate_diagonal_moves(ver_pos, hor_pos, path)
-
-    generate_vertical_horizontal_moves(path, ver_pos, hor_pos)
-
-    # 4 generate_digonal_moves to check for knight further from the king
-    generate_diagonal_moves(ver_pos, hor_pos - 1, path)
-
-    generate_diagonal_moves(ver_pos, hor_pos + 1, path)
-
-    generate_diagonal_moves(ver_pos + 1, hor_pos, path)
-
-    generate_diagonal_moves(ver_pos - 1, hor_pos, path)
-
-    move_limit(path, board, color)
-
-    remove_duplicate_pos(path)
   end
 
   def find_pieces_in_king_path(path, board)
@@ -118,6 +112,7 @@ module Checkmate_logic
         return true
       end
     end
+    false
   end
 
   def remove_non_dangerous_piece(chesspiece_location, opponent_pieces)
