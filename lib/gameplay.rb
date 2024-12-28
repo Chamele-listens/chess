@@ -14,9 +14,13 @@ class Chessboard
 
       player_king = find_king(@turn)
       opponent_status = checked?(player_king[1], @board, player_turn(@turn))
-      # p opponent_status
+
+      opponent_path = generate_all_opponent_path(opponent_status[0], @board)
+
+      break if stalemate?(opponent_path, player_king[1]) == true
+
       checkmate_status = checkmate?(player_king[1], opponent_status[0], @board, player_turn(@turn)) if opponent_status[1] == true # rubocop:disable Layout/LineLength
-      # p checkmate_status
+
       break if checkmate_status == true
 
       temp = player_input
@@ -27,7 +31,6 @@ class Chessboard
 
       @turn += 1
     end
-    p 'Checkmate'
   end
 
   def player_input
