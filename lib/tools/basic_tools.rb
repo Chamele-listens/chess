@@ -55,6 +55,11 @@ module Basic_tools
     select_grid(moves, [1, 1], board) { |square| square.data }
   end
 
+  def check_chesspiece_color(chesspiece_location, board, color)
+    chesspiece = get_chesspiece_from_board(chesspiece_location, board)
+    chesspiece.is_a?(Chesspiece) && chesspiece.color == color
+  end
+
   # For limiting chesspiece move to not move pass a chesspiece without destorying it
   # uses block to determine which pieces can a chess piece destory
   def move_limit(possible_moves, board, color, color_check_block1 = @@diff_color_check_block, color_check_block2 = @@same_color_check_block) # rubocop:disable Layout/LineLength
