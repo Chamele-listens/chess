@@ -17,7 +17,7 @@ class Chessboard
 
       opponent_path = generate_all_opponent_path(opponent_status[0], @board)
 
-      break if stalemate?(opponent_path, player_king[1]) == true
+      break if stalemate?(opponent_path, player_king[1], player_king[0].color, @board) == true
 
       checkmate_status = checkmate?(player_king[1], opponent_status[0], @board, player_turn(@turn)) if opponent_status[1] == true # rubocop:disable Layout/LineLength
 
