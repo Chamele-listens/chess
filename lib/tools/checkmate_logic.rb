@@ -50,8 +50,10 @@ module Checkmate_logic
     king_escape?(chesspiece_location, opponent_path, board)
   end
 
-  def stalemate?(opponent_path, chesspiece_location)
+  def stalemate?(opponent_path, chesspiece_location, color, board)
     king_moves = generate_king_moves(chesspiece_location)
+    return false if king_moves.count { |move| check_chesspiece_color(move, board, color) } > 1
+
     king_moves.reject! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) }
 
     if !opponent_path.include?(chesspiece_location) && (king_moves - opponent_path).empty?
@@ -66,7 +68,10 @@ module Checkmate_logic
     king_moves = generate_king_moves(chesspiece_location)
     king_moves << chesspiece_location
     king_moves.reject! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) }
-    (king_moves - opponent_path).empty?
+    if (king_moves - opponent_path).empty?
+      p 'checkmate'
+      true
+    end
   end
 
   def generate_all_opponent_path(opponent_pieces, board)
@@ -78,7 +83,7 @@ module Checkmate_logic
       # move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
 
       # p "#{temp_path} from #{opp.type} at #{opp_pos}"
-
+      
       opponent_path << temp_path.flatten(1)
 
       opponent_path << [opp_pos]
