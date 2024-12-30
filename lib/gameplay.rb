@@ -23,7 +23,10 @@ class Chessboard
 
       break if checkmate_status == true
 
+      own_chesspieces = get_king_own_chesspiece_in_check(player_king[1], opponent_status[0], player_turn(@turn), @board)
+
       temp = player_input
+      next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true
       next if player_input_valid?(temp) == false
       next if player_own_piece?(temp) == false
 
@@ -84,6 +87,18 @@ class Chessboard
     end
 
     nil
+  end
+
+  def limit_player_moves_during_check(player_king, player_input, is_checked, own_chesspieces)
+    return false if is_checked == false
+
+    p "The king's pieces are #{own_chesspieces}"
+
+    own_chesspieces[player_king[0]] = player_king[1]
+
+    own_chesspieces.each_value { |chesspiece_pos| return false if player_input[0] == chesspiece_pos }
+
+    true
   end
 
   def player_turn(turn)
