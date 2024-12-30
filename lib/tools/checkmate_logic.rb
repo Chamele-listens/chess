@@ -29,17 +29,7 @@ module Checkmate_logic
     ver_pos = location[0]
     hor_pos = location[1]
 
-    all_pos = generate_all_possible_pos
-
-    own_chesspieces = find_own_piece_from_path_set(all_pos, color, board)
-
-    own_chesspieces.reject! { |chesspiece| chesspiece.is_a?(King) }
-
-    # p own_chesspieces
-
-    own_chesspieces = chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, chesspiece_location)
-
-    own_chesspieces = remove_pawn_that_cant_protect_king(own_chesspieces, color, board)
+    own_chesspieces = get_king_own_chesspiece_in_check(chesspiece_location, opponent_pieces, color, board)
 
     return false if opponent_pieces.count <= own_chesspieces.count
 
@@ -62,6 +52,20 @@ module Checkmate_logic
     else
       p 'nothing happen'
     end
+  end
+
+  def get_king_own_chesspiece_in_check(chesspiece_location, opponent_pieces, color, board)
+    all_pos = generate_all_possible_pos
+
+    own_chesspieces = find_own_piece_from_path_set(all_pos, color, board)
+
+    own_chesspieces.reject! { |chesspiece| chesspiece.is_a?(King) }
+
+    # p own_chesspieces
+
+    own_chesspieces = chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, chesspiece_location)
+
+    remove_pawn_that_cant_protect_king(own_chesspieces, color, board)
   end
 
   def king_escape?(chesspiece_location, opponent_path, board)
