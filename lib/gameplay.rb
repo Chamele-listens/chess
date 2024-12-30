@@ -23,7 +23,9 @@ class Chessboard
 
       break if checkmate_status == true
 
-      own_chesspieces = get_king_own_chesspiece_in_check(player_king[1], opponent_status[0], player_turn(@turn), @board)
+      if opponent_status[1] == true
+        own_chesspieces = get_king_own_chesspiece_in_check(player_king[1], opponent_status[0], player_turn(@turn), @board) # rubocop:disable Layout/LineLength
+      end
 
       temp = player_input
       next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true
