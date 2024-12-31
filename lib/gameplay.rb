@@ -28,6 +28,9 @@ class Chessboard
       end
 
       temp = player_input
+
+      next if stop_king_from_moving_into_check(temp[1], player_king[0], player_king[1], opponent_path) == true && temp[0] == player_king[1] # rubocop:disable Layout/LineLength
+
       next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true
       next if player_input_valid?(temp) == false
       next if player_own_piece?(temp) == false
@@ -99,6 +102,16 @@ class Chessboard
     own_chesspieces[player_king[0]] = player_king[1]
 
     own_chesspieces.each_value { |chesspiece_pos| return false if player_input[0] == chesspiece_pos }
+
+    true
+  end
+
+  def stop_king_from_moving_into_check(player_input, king, king_pos, opponent_path)
+    king_move = king.generate_moves(king_pos)
+
+    king_legal_moves = king_move - opponent_path
+
+    return false if king_legal_moves.include?(player_input)
 
     true
   end
