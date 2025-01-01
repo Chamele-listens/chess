@@ -7,7 +7,12 @@ class Chessboard
 
     @turn = 0
 
-    create_new_game(@board)
+    # create_new_game(@board)
+
+    # Unexpected behavoir:
+    # When king is in check, it only sometimes restrict moves of king's own peice
+    # and some unhelpful chesspiece can move without protecting the king.
+    # The issue might be from #chesspiece_to_protect_king? with the cutoff move methods
 
     loop do
       show_grid
@@ -30,6 +35,8 @@ class Chessboard
       temp = player_input
 
       next if stop_king_from_moving_into_check(temp[1], player_king[0], player_king[1], opponent_path) == true && temp[0] == player_king[1] # rubocop:disable Layout/LineLength
+
+      next if king_exposed?(temp, opponent_status[0], player_king[1]) == true && opponent_status[0] == false
 
       next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true
       next if player_input_valid?(temp) == false
@@ -97,9 +104,9 @@ class Chessboard
   def limit_player_moves_during_check(player_king, player_input, is_checked, own_chesspieces)
     return false if is_checked == false
 
-    p "The king's pieces are #{own_chesspieces}"
-
     own_chesspieces[player_king[0]] = player_king[1]
+
+    p "The king's pieces are #{own_chesspieces}"
 
     own_chesspieces.each_value { |chesspiece_pos| return false if player_input[0] == chesspiece_pos }
 
@@ -114,6 +121,26 @@ class Chessboard
     return false if king_legal_moves.include?(player_input)
 
     true
+  end
+
+  def king_exposed?(player_input, opponent_pieces, king_pos)
+    p 'This method ran !'
+
+    removed_piece = remove_chesspiece(player_input[0])
+
+    opponent_path = generate_all_opponent_path(opponent_pieces, @board)
+
+    p opponent_path
+
+    if opponent_path.include?(king_pos) && !opponent_path.include?(player_input[1])
+      p 'Move will leave king exposed !'
+      add_chesspiece(player_input[0], removed_piece)
+      return true
+    end
+
+    add_chesspiece(player_input[0], removed_piece)
+
+    false
   end
 
   def player_turn(turn)
