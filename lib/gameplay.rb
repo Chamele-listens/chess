@@ -34,11 +34,11 @@ class Chessboard
 
       temp = player_input
 
-      next if stop_king_from_moving_into_check(temp[1], player_king[0], player_king[1], opponent_path) == true && temp[0] == player_king[1] # rubocop:disable Layout/LineLength
+      next if stop_king_from_moving_into_check(temp[1], player_king[0], player_king[1], opponent_path) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
-      next if king_exposed?(temp, opponent_status[0], player_king[1]) == true && opponent_status[0] == false
+      next if king_exposed?(temp, opponent_status[0], player_king[1]) == true && opponent_status[1] == false
 
-      next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true
+      next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true && opponent_status[1] == true # rubocop:disable Layout/LineLength
       next if player_input_valid?(temp) == false
       next if player_own_piece?(temp) == false
 
@@ -124,8 +124,6 @@ class Chessboard
   end
 
   def king_exposed?(player_input, opponent_pieces, king_pos)
-    p 'This method ran !'
-
     removed_piece = remove_chesspiece(player_input[0])
 
     opponent_path = generate_all_opponent_path(opponent_pieces, @board)
