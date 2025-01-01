@@ -84,7 +84,7 @@ module Checkmate_logic
     opponent_pieces.each do |opp, opp_pos|
       temp_path = opp.generate_moves(opp_pos)
 
-      # move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
+      move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
 
       # p "#{temp_path} from #{opp.type} at #{opp_pos}"
       
