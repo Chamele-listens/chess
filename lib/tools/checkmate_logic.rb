@@ -90,7 +90,7 @@ module Checkmate_logic
       
       opponent_path << temp_path.flatten(1)
 
-      opponent_path << [opp_pos]
+      #opponent_path << [opp_pos]
     end
 
     opponent_path.flatten(1).uniq
