@@ -226,22 +226,33 @@ module Checkmate_logic
   end
 
   def cutoff_rook_moves(chess_path, pos, king_pos)
+    temp = []
+
     king_ver_pos = king_pos[0]
     king_hor_pos = king_pos[1]
 
     ver_pos = pos[0]
     hor_pos = pos[1]
 
-    if king_hor_pos > hor_pos # get right
-      chess_path = chess_path.slice(0)
-    elsif king_hor_pos < hor_pos # get left
-      chess_path = chess_path.slice(1)
-    elsif king_ver_pos > ver_pos # get up
-      chess_path = chess_path.slice(2)
-    elsif king_ver_pos < ver_pos # get down
-      chess_path = chess_path.slice(3)
+    chess_path.each do |path|
+      if king_hor_pos == hor_pos # horizontal
+        if king_ver_pos < ver_pos
+          temp << path.select { |move| move[0] < ver_pos && move[1] == hor_pos }
+        elsif king_ver_pos > ver_pos
+          temp << path.select { |move| move[0] > ver_pos && move[1] == hor_pos }
+        end
+      end
+
+      if king_ver_pos == ver_pos # vertical
+        if king_hor_pos > hor_pos
+          temp << path.select { |move| move[0] == ver_pos && move[1] > hor_pos }
+        elsif king_hor_pos < hor_pos
+          temp << path.select { |move| move[0] == ver_pos && move[1] < hor_pos }
+        end
+      end
     end
-    [chess_path]
+
+    temp
   end
 
   def cutoff_queen_moves(chess_path, pos, king_pos)
