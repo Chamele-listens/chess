@@ -182,6 +182,8 @@ module Checkmate_logic
 
         temp = ''
 
+        #p opponent_path
+
         temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
 
         next if temp == false
@@ -194,22 +196,33 @@ module Checkmate_logic
   end
 
   def cutoff_bishop_moves(chess_path, pos, king_pos)
+    temp = []
+
     king_ver_pos = king_pos[0]
     king_hor_pos = king_pos[1]
 
     ver_pos = pos[0]
     hor_pos = pos[1]
 
-    if king_hor_pos < hor_pos && king_ver_pos < ver_pos # get lower_left
-      chess_path = chess_path.slice(3)
-    elsif king_hor_pos > hor_pos && king_ver_pos > ver_pos # get upper_right
-      chess_path = chess_path.slice(0)
-    elsif king_hor_pos < hor_pos && king_ver_pos > ver_pos # get upper_left
-      chess_path = chess_path.slice(2)
-    elsif king_hor_pos > hor_pos && king_ver_pos < ver_pos # get lower_right
-      chess_path = chess_path.slice(1)
+    chess_path.each do |path|
+      if king_hor_pos > hor_pos # lower and upper right
+        if king_ver_pos < ver_pos
+          temp << path.select { |move| move[0] < ver_pos && move[1] > hor_pos }
+        elsif king_ver_pos > ver_pos
+          temp << path.select { |move| move[0] > ver_pos && move[1] > hor_pos }
+        end
+      end
+
+      if king_hor_pos < hor_pos # lower and upper left
+        if king_ver_pos < ver_pos
+          temp << path.select { |move| move[0] < ver_pos && move[1] < hor_pos }
+        elsif king_ver_pos > ver_pos
+          temp << path.select { |move| move[0] > ver_pos && move[1] < hor_pos }
+        end
+      end
     end
-    [chess_path]
+
+    temp
   end
 
   def cutoff_rook_moves(chess_path, pos, king_pos)
