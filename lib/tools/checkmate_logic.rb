@@ -265,39 +265,9 @@ module Checkmate_logic
     ver_pos = pos[0]
     hor_pos = pos[1]
 
-    chess_path.each do |path|
-      if king_hor_pos == hor_pos # horizontal
-        if king_ver_pos < ver_pos
-          temp << path.select { |move| move[0] < ver_pos && move[1] == hor_pos }
-        elsif king_ver_pos > ver_pos
-          temp << path.select { |move| move[0] > ver_pos && move[1] == hor_pos }
-        end
-      end
+    temp << cutoff_rook_moves(chess_path, pos, king_pos).flatten(1)
 
-      if king_ver_pos == ver_pos # vertical
-        if king_hor_pos > hor_pos
-          temp << path.select { |move| move[0] == ver_pos && move[1] > hor_pos }
-        elsif king_hor_pos < hor_pos
-          temp << path.select { |move| move[0] == ver_pos && move[1] < hor_pos }
-        end
-      end
-
-      if king_hor_pos > hor_pos # lower and upper right
-        if king_ver_pos < ver_pos
-          temp << path.select { |move| move[0] < ver_pos && move[1] > hor_pos }
-        elsif king_ver_pos > ver_pos
-          temp << path.select { |move| move[0] > ver_pos && move[1] > hor_pos }
-        end
-      end
-
-      if king_hor_pos < hor_pos # lower and upper left
-        if king_ver_pos < ver_pos
-          temp << path.select { |move| move[0] < ver_pos && move[1] < hor_pos }
-        elsif king_ver_pos > ver_pos
-          temp << path.select { |move| move[0] > ver_pos && move[1] < hor_pos }
-        end
-      end
-    end
+    temp << cutoff_bishop_moves(chess_path, pos, king_pos).flatten(1)
 
     remove_duplicate_pos(temp)
     temp
