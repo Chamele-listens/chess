@@ -166,7 +166,7 @@ module Checkmate_logic
       opponent_pieces.each do |opponent_chesspiece, opp_pos|
         opponent_path = opponent_chesspiece.generate_moves(opp_pos)
 
-        move_limit(opponent_path, board, opponent_chesspiece.color) unless chesspiece.is_a?(Knight)
+        move_limit(opponent_path, board, opponent_chesspiece.color) unless opponent_pieces.is_a?(Knight)
 
         opponent_path = cutoff_bishop_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Bishop)
 
