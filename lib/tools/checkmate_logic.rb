@@ -31,13 +31,18 @@ module Checkmate_logic
 
     own_chesspieces = get_king_own_chesspiece_in_check(chesspiece_location, opponent_pieces, color, board)
 
-    return false if opponent_pieces.count <= own_chesspieces.count
+    # return false if opponent_pieces.count <= own_chesspieces.count
+
+    # use king_escape? or if there's any piece that can protct him
+    # as a way to check for checkmate
 
     p 'ran'
 
     opponent_path = generate_all_opponent_path(opponent_pieces, board)
 
-    king_escape?(chesspiece_location, opponent_path, board)
+    return true if king_escape?(chesspiece_location, opponent_path, board) && own_chesspieces.count.zero?
+
+    false
   end
 
   def stalemate?(opponent_path, chesspiece_location, color, board)
@@ -72,10 +77,7 @@ module Checkmate_logic
     king_moves = generate_king_moves(chesspiece_location)
     king_moves << chesspiece_location
     king_moves.reject! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) }
-    if (king_moves - opponent_path).empty?
-      p 'checkmate'
-      true
-    end
+    true if (king_moves - opponent_path).empty?
   end
 
   def generate_all_opponent_path(opponent_pieces, board)
@@ -87,10 +89,10 @@ module Checkmate_logic
       move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
 
       # p "#{temp_path} from #{opp.type} at #{opp_pos}"
-      
+
       opponent_path << temp_path.flatten(1)
 
-      #opponent_path << [opp_pos]
+      # opponent_path << [opp_pos]
     end
 
     opponent_path.flatten(1).uniq
@@ -182,7 +184,7 @@ module Checkmate_logic
 
         temp = ''
 
-        #p opponent_path
+        # p opponent_path
 
         temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
 
