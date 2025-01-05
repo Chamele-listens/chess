@@ -7,7 +7,9 @@ class Chessboard
 
     @turn = 0
 
-    # create_new_game(@board)
+    create_new_game(@board)
+
+    add_new_chesspiece([2, 3], '♘', 'black')
 
     # Unexpected behavoir:
     # When king is in check, it only sometimes restrict moves of king's own peice
@@ -22,11 +24,14 @@ class Chessboard
 
       opponent_path = generate_all_opponent_path(opponent_status[0], @board)
 
-      break if stalemate?(opponent_path, player_king[1], player_king[0].color, @board) == true
+      # break if stalemate?(opponent_path, player_king[1], player_king[0].color, @board) == true
 
       checkmate_status = checkmate?(player_king[1], opponent_status[0], @board, player_turn(@turn)) if opponent_status[1] == true # rubocop:disable Layout/LineLength
 
-      break if checkmate_status == true
+      if checkmate_status == true
+        p 'checkmate'
+        break
+      end
 
       if opponent_status[1] == true
         own_chesspieces = get_king_own_chesspiece_in_check(player_king[1], opponent_status[0], player_turn(@turn), @board) # rubocop:disable Layout/LineLength
@@ -110,6 +115,8 @@ class Chessboard
 
     own_chesspieces.each_value { |chesspiece_pos| return false if player_input[0] == chesspiece_pos }
 
+    p 'Protect your king !'
+
     true
   end
 
@@ -119,6 +126,8 @@ class Chessboard
     king_legal_moves = king_move - opponent_path
 
     return false if king_legal_moves.include?(player_input)
+
+    p 'Move will put king in check !'
 
     true
   end
