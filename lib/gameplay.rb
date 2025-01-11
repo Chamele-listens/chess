@@ -43,7 +43,7 @@ class Chessboard
 
       temp = player_input
 
-      # Edge case: when king is in checkmate, king must move out of checkmate not towards
+      # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
       next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, opponent_status[1]) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
       next if move_king_out_of_check(temp, opponent_path, opponent_status[1]) == true
@@ -131,6 +131,7 @@ class Chessboard
   # Will stop the king from moving into check when it's no currently in check
   def stop_king_from_moving_into_check(player_input, king, king_pos, opponent_path, is_checked)
     return false unless get_chesspiece_from_board(player_input[0], @board).is_a?(King)
+    return false if is_checked == true
 
     king_move = king.generate_moves(king_pos)
 
