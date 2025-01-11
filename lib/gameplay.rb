@@ -46,7 +46,9 @@ class Chessboard
       # Edge case: when king is in checkmate, king must move out of checkmate not towards
       next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, opponent_status[1]) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
-      next if king_exposed?(temp, opponent_status[0], player_king[1]) == true && opponent_status[1] == false
+      next if move_king_out_of_check(temp, opponent_path, opponent_status[1]) == true
+
+      next if king_exposed?(temp, opponent_status[0], player_king[1])
 
       next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true && opponent_status[1] == true # rubocop:disable Layout/LineLength
       next if player_input_valid?(temp) == false
@@ -141,6 +143,18 @@ class Chessboard
     p 'Move will put king in check !'
 
     true
+  end
+
+  def move_king_out_of_check(temp, opponent_path, is_checked)
+    return false unless get_chesspiece_from_board(temp[0], @board).is_a?(King)
+    return false if is_checked == false
+
+    if opponent_path.include?(temp[1])
+      p 'move your king out of check'
+      return true
+    end
+
+    false
   end
 
   # Will prevent other pieces from leaving the king exposed
