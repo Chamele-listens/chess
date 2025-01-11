@@ -5,16 +5,20 @@ class Chessboard
   def start
     p 'Play a game of chess !'
 
-    @turn = 0
+    @turn = 1
 
-    create_new_game(@board)
+    # create_new_game(@board)
 
-    add_new_chesspiece([2, 3], '♘', 'black')
+    # add_new_chesspiece([2, 3], '♘', 'black')
 
-    # Unexpected behavoir:
+    # Unexpected behavoir: (mostly fixed in checkmate_logic.rb)
     # When king is in check, it only sometimes restrict moves of king's own peice
     # and some unhelpful chesspiece can move without protecting the king.
     # The issue might be from #chesspiece_to_protect_king? with the cutoff move methods
+
+    # Bugs:
+    # - #limit_player_moves_during_check prevents piece from moving when knight is
+    # not in check
 
     loop do
       show_grid
@@ -39,7 +43,8 @@ class Chessboard
 
       temp = player_input
 
-      next if stop_king_from_moving_into_check(temp[1], player_king[0], player_king[1], opponent_path) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
+      # Edge case: when king is in checkmate, king must move out of checkmate not towards
+      next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, opponent_status[1]) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
       next if king_exposed?(temp, opponent_status[0], player_king[1]) == true && opponent_status[1] == false
 
@@ -106,6 +111,7 @@ class Chessboard
     nil
   end
 
+  # will limit where a player in check can move, including the king when it's in check
   def limit_player_moves_during_check(player_king, player_input, is_checked, own_chesspieces)
     return false if is_checked == false
 
@@ -120,30 +126,44 @@ class Chessboard
     true
   end
 
-  def stop_king_from_moving_into_check(player_input, king, king_pos, opponent_path)
+  # Will stop the king from moving into check when it's no currently in check
+  def stop_king_from_moving_into_check(player_input, king, king_pos, opponent_path, is_checked)
+    return false unless get_chesspiece_from_board(player_input[0], @board).is_a?(King)
+
     king_move = king.generate_moves(king_pos)
 
     king_legal_moves = king_move - opponent_path
 
-    return false if king_legal_moves.include?(player_input)
+    # p "The king's legal moves are #{king_legal_moves}"
+
+    return false if king_legal_moves.include?(player_input[1])
 
     p 'Move will put king in check !'
 
     true
   end
 
+  # Will prevent other pieces from leaving the king exposed
   def king_exposed?(player_input, opponent_pieces, king_pos)
+    return false if get_chesspiece_from_board(player_input[0], @board).is_a?(King)
+
     removed_piece = remove_chesspiece(player_input[0])
 
-    opponent_path = generate_all_opponent_path(opponent_pieces, @board)
+    opponent_path = generate_all_opponent_path(opponent_pieces, @board) do |opponent_path, opp_pos|
+      opponent_path << [opp_pos]
+    end
 
     p opponent_path
+
+    p "#{opponent_path.include?(king_pos)} and #{!opponent_path.include?(player_input[1])}"
 
     if opponent_path.include?(king_pos) && !opponent_path.include?(player_input[1])
       p 'Move will leave king exposed !'
       add_chesspiece(player_input[0], removed_piece)
       return true
     end
+
+    p 'The king is not expose if this part runs'
 
     add_chesspiece(player_input[0], removed_piece)
 
