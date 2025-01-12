@@ -48,7 +48,7 @@ class Chessboard
 
       next if move_king_out_of_check(temp, opponent_path, opponent_status[1]) == true
 
-      next if king_exposed?(temp, opponent_status[0], player_king[1])
+      next if king_exposed?(temp, opponent_status[0], player_king[1], opponent_status[1])
 
       next if limit_player_moves_during_check(player_king, temp, opponent_status[1], own_chesspieces) == true && opponent_status[1] == true # rubocop:disable Layout/LineLength
       next if player_input_valid?(temp) == false
@@ -159,8 +159,9 @@ class Chessboard
   end
 
   # Will prevent other pieces from leaving the king exposed
-  def king_exposed?(player_input, opponent_pieces, king_pos)
+  def king_exposed?(player_input, opponent_pieces, king_pos, is_checked)
     return false if get_chesspiece_from_board(player_input[0], @board).is_a?(King)
+    return false if is_checked == true
 
     removed_piece = remove_chesspiece(player_input[0])
 
