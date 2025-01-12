@@ -153,9 +153,9 @@ class Chessboard
 
     p temp
 
-    temp_opponent_pieces = remove_non_dangerous_piece(temp[0], opponent_pieces)
+    opp_piece_path = only_generate_opponent_path_for_dangerous_pieces(temp[0], opponent_pieces, @board)
 
-    opponent_path = generate_all_opponent_path(temp_opponent_pieces, @board)
+    opponent_path = opp_piece_path[1]
 
     if opponent_path.include?(temp[1])
       p 'move your king out of check'
@@ -163,6 +163,14 @@ class Chessboard
     end
 
     false
+  end
+
+  def only_generate_opponent_path_for_dangerous_pieces(pos, opponent_pieces, board)
+    temp_opponent_pieces = remove_non_dangerous_piece(pos, opponent_pieces)
+
+    opponent_path = generate_all_opponent_path(temp_opponent_pieces, board)
+
+    [temp_opponent_pieces, opponent_path]
   end
 
   # Will prevent other pieces from leaving the king exposed
