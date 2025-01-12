@@ -7,9 +7,10 @@ class Chessboard
 
     @turn = 1
 
-    # create_new_game(@board)
+    create_new_game(@board)
 
-    # add_new_chesspiece([2, 3], '♘', 'black')
+    add_new_chesspiece([7, 3], '♞', 'white')
+    remove_chesspiece([8, 4])
 
     # Unexpected behavoir: (mostly fixed in checkmate_logic.rb)
     # When king is in check, it only sometimes restrict moves of king's own peice
@@ -46,7 +47,7 @@ class Chessboard
       # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
       next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, opponent_status[1]) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
-      next if move_king_out_of_check(temp, opponent_path, opponent_status[1]) == true
+      next if move_king_out_of_check(temp, opponent_status[0], opponent_status[1]) == true
 
       next if king_exposed?(temp, opponent_status[0], player_king[1], opponent_status[1])
 
@@ -146,9 +147,15 @@ class Chessboard
     true
   end
 
-  def move_king_out_of_check(temp, opponent_path, is_checked)
+  def move_king_out_of_check(temp, opponent_pieces, is_checked)
     return false unless get_chesspiece_from_board(temp[0], @board).is_a?(King)
     return false if is_checked == false
+
+    p temp
+
+    temp_opponent_pieces = remove_non_dangerous_piece(temp[0], opponent_pieces)
+
+    opponent_path = generate_all_opponent_path(temp_opponent_pieces, @board)
 
     if opponent_path.include?(temp[1])
       p 'move your king out of check'
