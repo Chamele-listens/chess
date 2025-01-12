@@ -38,7 +38,11 @@ module Checkmate_logic
 
     p 'ran'
 
-    opponent_path = generate_all_opponent_path(opponent_pieces, board)
+    # TODO: change naming convention for opponent_pieces
+
+    temp_opponent_pieces = remove_non_dangerous_piece(chesspiece_location, opponent_pieces)
+
+    opponent_path = generate_all_opponent_path(temp_opponent_pieces, board)
 
     return true if king_escape?(chesspiece_location, opponent_path, board) && own_chesspieces.count.zero?
 
