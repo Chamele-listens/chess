@@ -150,7 +150,7 @@ module Checkmate_logic
 
       own_chesspieces.delete(pawn) if get_chesspiece_from_board(pos, board).is_a?(Chesspiece)
     end
-    p own_chesspieces
+    own_chesspieces
   end
 
   def chesspiece_to_protect_king?(own_chesspieces, opponent_pieces, board, king_location)
@@ -174,7 +174,7 @@ module Checkmate_logic
 
         opponent_path = cutoff_queen_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Queen)
 
-        opponent_path = [] if opponent_chesspiece.is_a?(Knight)
+        # opponent_path = [] if opponent_chesspiece.is_a?(Knight)
 
         opponent_path << [opp_pos]
 
@@ -189,6 +189,8 @@ module Checkmate_logic
         temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
 
         next if temp == false
+
+        next if temp.is_a?(Pawn) && opponent_chesspiece.is_a?(Knight)
 
         next if opponent_chesspiece_dangerous?(opponent_path, king_location) == false
 
