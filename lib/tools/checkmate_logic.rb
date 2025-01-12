@@ -86,13 +86,13 @@ module Checkmate_logic
     opponent_pieces.each do |opp, opp_pos|
       temp_path = opp.generate_moves(opp_pos)
 
-      move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
+      # move_limit(temp_path, board, opp.color) unless opp.is_a?(Knight)
 
       # p "#{temp_path} from #{opp.type} at #{opp_pos}"
 
       opponent_path << temp_path.flatten(1)
 
-      # opponent_path << [opp_pos]
+      yield(opponent_path, opp_pos) if block_given?
     end
 
     opponent_path.flatten(1).uniq
@@ -190,11 +190,19 @@ module Checkmate_logic
 
         next if temp == false
 
+        next if opponent_chesspiece_dangerous?(opponent_path, king_location) == false
+
         chesspiece_protect_king[temp] = pos
       end
     end
     p chesspiece_protect_king
     chesspiece_protect_king
+  end
+
+  def opponent_chesspiece_dangerous?(opponent_path, king_location)
+    return true if opponent_path.flatten(1).include?(king_location)
+
+    false
   end
 
   def cutoff_bishop_moves(chess_path, pos, king_pos)
