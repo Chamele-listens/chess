@@ -5,12 +5,12 @@ class Chessboard
   def start
     p 'Play a game of chess !'
 
-    @turn = 1
+    @turn = 0
 
     create_new_game(@board)
 
-    add_new_chesspiece([7, 3], '♞', 'white')
-    remove_chesspiece([8, 4])
+    # add_new_chesspiece([7, 3], '♞', 'white')
+    # remove_chesspiece([8, 4])
 
     # Unexpected behavoir: (mostly fixed in checkmate_logic.rb)
     # When king is in check, it only sometimes restrict moves of king's own peice
@@ -48,6 +48,8 @@ class Chessboard
       next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, opponent_status[1]) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
       next if move_king_out_of_check(temp, opponent_status[0], opponent_status[1]) == true
+
+      next if more_than_1_pieces_checking_king?(temp[0], player_king[1], opponent_status[0], opponent_status[1]) == true
 
       next if king_exposed?(temp, opponent_status[0], player_king[1], opponent_status[1])
 
@@ -127,6 +129,20 @@ class Chessboard
     p 'Protect your king !'
 
     true
+  end
+
+  def more_than_1_pieces_checking_king?(player_input, king_pos, opponent_pieces, is_checked)
+    return false if is_checked == false
+    return false if player_input == king_pos
+
+    temp_opponent_pieces = remove_non_dangerous_piece(king_pos, opponent_pieces)
+
+    if temp_opponent_pieces.count > 1
+      p "there's more than 1 pieces checking the king ! Move your king !"
+      return true
+    end
+
+    false
   end
 
   # Will stop the king from moving into check when it's no currently in check
