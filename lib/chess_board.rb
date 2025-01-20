@@ -25,10 +25,11 @@ class Chessboard
   include Basic_tools
   include Checkmate_logic
   include Move_set
-  attr_accessor :board
+  attr_accessor :board, :turn
 
-  def initialize(board = nil)
+  def initialize(board = nil, turn = 0)
     @board = board
+    @turn = turn
   end
 
   def create_board(grid = 8)

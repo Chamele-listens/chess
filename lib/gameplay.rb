@@ -5,7 +5,7 @@ class Chessboard
   def start
     p 'Play a game of chess !'
 
-    @turn = 0
+    # @turn = 0
 
     create_new_game(@board)
 
