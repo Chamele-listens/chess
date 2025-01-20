@@ -1,7 +1,10 @@
 require 'json'
+require_relative 'tools/save_load_system'
 
 # all gameplay functionality for the same chessBoard class
 class Chessboard
+  include Save_load_system
+
   def start
     p 'Play a game of chess !'
 
@@ -20,6 +23,8 @@ class Chessboard
     # Bugs:
     # - #limit_player_moves_during_check prevents piece from moving when knight is
     # not in check
+
+    create_save_file
 
     loop do
       show_grid

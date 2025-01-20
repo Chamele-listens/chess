@@ -10,6 +10,6 @@ module Save_load_system
   end
 
   def create_save_file
-    Dir.mkdir('./save_files') unless File.exist?('./save_files')
+    Dir.mkdir('lib/save_files') unless File.exist?('lib/save_files')
   end
 end
