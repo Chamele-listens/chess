@@ -8,4 +8,8 @@ module Save_load_system
     data = JSON.load save
     new(data['board'], data['turn'])
   end
+
+  def create_save_file
+    Dir.mkdir('./save_files') unless File.exist?('./save_files')
+  end
 end
