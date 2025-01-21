@@ -5,11 +5,11 @@ require_relative 'tools/save_load_system'
 class Chessboard
   include Save_load_system
 
-  def start
+  def start(game_object)
     p 'Play a game of chess !'
 
     # @turn = 0
-
+    #
     create_new_game(@board)
 
     # add_new_chesspiece([7, 3], '♞', 'white')
@@ -24,7 +24,15 @@ class Chessboard
     # - #limit_player_moves_during_check prevents piece from moving when knight is
     # not in check
 
-    create_save_file
+    # p game_object
+
+    # create_save_files_folder
+    # write_to_save_file(game_object)
+    # stuff = load_from_save_file
+    # @board = stuff.board
+    # @turn = stuff.turn
+
+    # p @board
 
     loop do
       show_grid
@@ -49,6 +57,12 @@ class Chessboard
 
       temp = player_input
 
+      p temp
+
+      next if save_load?(temp, game_object) == true
+
+      p 'This part should not run when saving and loading'
+
       # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
       next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, opponent_status[1]) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
@@ -68,12 +82,34 @@ class Chessboard
     end
   end
 
+  def save_load?(player_input, game_object)
+    return false if player_input.count('a-zA-Z') <= 0
+
+    create_save_files_folder
+
+    if player_input == 'save'
+      write_to_save_file(game_object)
+      p 'Game has been saved'
+    elsif player_input == 'load'
+      save_data = load_from_save_file
+      @board = save_data.board
+      @turn = save_data.turn
+      p 'Game has been loaded'
+    else
+      p 'not vaild input'
+    end
+
+    true
+  end
+
   def player_input
     p "its #{player_turn(@turn)} turn !"
 
     input = gets.chomp
 
     proper_input = []
+
+    return input if input.count('a-zA-Z').positive?
 
     input.split('').each { |num| proper_input << num.to_i }
 
