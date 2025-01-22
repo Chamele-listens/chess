@@ -117,6 +117,8 @@ class Chessboard
   end
 
   def load
+    return p 'There is no save file' unless File.exist?('lib/save_files/save_file.json')
+
     save_data = load_from_save_file
     @board = save_data.board
     @turn = save_data.turn
