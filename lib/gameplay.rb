@@ -88,18 +88,26 @@ class Chessboard
     create_save_files_folder
 
     if player_input == 'save'
-      write_to_save_file(game_object)
-      p 'Game has been saved'
+      save(game_object)
     elsif player_input == 'load'
-      save_data = load_from_save_file
-      @board = save_data.board
-      @turn = save_data.turn
-      p 'Game has been loaded'
+      load
     else
       p 'not vaild input'
     end
 
     true
+  end
+
+  def save(game_object)
+    write_to_save_file(game_object)
+    p 'Game has been saved'
+  end
+
+  def load
+    save_data = load_from_save_file
+    @board = save_data.board
+    @turn = save_data.turn
+    p 'Game has been loaded'
   end
 
   def player_input
