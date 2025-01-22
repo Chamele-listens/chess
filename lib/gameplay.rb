@@ -88,6 +88,8 @@ class Chessboard
     create_save_files_folder
 
     if player_input == 'save'
+      return true if save_file_override? == false
+
       save(game_object)
     elsif player_input == 'load'
       load
@@ -101,6 +103,17 @@ class Chessboard
   def save(game_object)
     write_to_save_file(game_object)
     p 'Game has been saved'
+  end
+
+  def save_file_override?
+    return unless File.exist?('lib/save_files/save_file.json')
+
+    p 'Do you want to override your save file? (y/n)'
+    input = gets.chomp.downcase
+
+    return true if %w[y yes].include?(input)
+
+    false
   end
 
   def load
