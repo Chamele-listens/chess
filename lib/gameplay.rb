@@ -9,30 +9,8 @@ class Chessboard
     p 'Play a game of chess !'
 
     # @turn = 0
-    #
+
     create_new_game(@board)
-
-    # add_new_chesspiece([7, 3], '♞', 'white')
-    # remove_chesspiece([8, 4])
-
-    # Unexpected behavoir: (mostly fixed in checkmate_logic.rb)
-    # When king is in check, it only sometimes restrict moves of king's own peice
-    # and some unhelpful chesspiece can move without protecting the king.
-    # The issue might be from #chesspiece_to_protect_king? with the cutoff move methods
-
-    # Bugs:
-    # - #limit_player_moves_during_check prevents piece from moving when knight is
-    # not in check
-
-    # p game_object
-
-    # create_save_files_folder
-    # write_to_save_file(game_object)
-    # stuff = load_from_save_file
-    # @board = stuff.board
-    # @turn = stuff.turn
-
-    # p @board
 
     loop do
       show_grid
