@@ -39,8 +39,6 @@ class Chessboard
 
       next if save_load?(temp, game_object) == true
 
-      p 'This part should not run when saving and loading'
-
       # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
       next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, opponent_status[1]) == true && temp[0] == player_king[1] && opponent_status[1] == false # rubocop:disable Layout/LineLength
 
@@ -93,9 +91,10 @@ class Chessboard
   def player_own_piece?(move_pos)
     p 'ran'
     return false if get_chesspiece_from_board(move_pos[0], @board) == '[ ]'
-    return false unless get_chesspiece_from_board(move_pos[0], @board).color == player_turn(@turn)
 
-    p 'Its the player own piece'
+    false unless get_chesspiece_from_board(move_pos[0], @board).color == player_turn(@turn)
+
+    # p 'Its the player own piece'
   end
 
   def find_king(turn)
@@ -199,9 +198,9 @@ class Chessboard
       opponent_path << [opp_pos]
     end
 
-    p opponent_path
+    # p opponent_path
 
-    p "#{opponent_path.include?(king_pos)} and #{!opponent_path.include?(player_input[1])}"
+    # p "#{opponent_path.include?(king_pos)} and #{!opponent_path.include?(player_input[1])}"
 
     if opponent_path.include?(king_pos) && !opponent_path.include?(player_input[1])
       p 'Move will leave king exposed !'
@@ -209,7 +208,7 @@ class Chessboard
       return true
     end
 
-    p 'The king is not expose if this part runs'
+    # p 'The king is not expose if this part runs'
 
     add_chesspiece(player_input[0], removed_piece)
 
