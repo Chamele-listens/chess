@@ -45,20 +45,12 @@ class Chessboard
       player_piece_pos = player_pos_destination[0]
       player_piece_destination = player_pos_destination[1]
 
-      p player_pos_destination
-
       next if save_load?(player_pos_destination, game_object) == true
 
+      next if chesspiece_constraint?(player_pos_destination, player_king, own_chesspieces, opponent_status, opponent_path) == true # rubocop:disable Layout/LineLength
+
       # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
-      next if stop_king_from_moving_into_check(player_pos_destination, king_piece, king_pos, opponent_path, is_checked) == true && player_piece_pos == king_pos && is_checked == false # rubocop:disable Layout/LineLength
 
-      next if move_king_out_of_check(player_pos_destination, opponent_pieces, is_checked) == true
-
-      next if more_than_1_pieces_checking_king?(player_piece_pos, king_pos, opponent_pieces, is_checked) == true
-
-      next if king_exposed?(player_pos_destination, opponent_pieces, king_pos, is_checked)
-
-      next if limit_player_moves_during_check(player_king, player_pos_destination, is_checked, own_chesspieces) == true && is_checked == true # rubocop:disable Layout/LineLength
       next if player_input_valid?(player_pos_destination) == false
       next if player_own_piece?(player_pos_destination) == false
 
@@ -66,6 +58,28 @@ class Chessboard
 
       @turn += 1
     end
+  end
+
+  def chesspiece_constraint?(player_pos_destination, player_king, own_chesspieces, opponent_status, opponent_path)
+    opponent_pieces = opponent_status[0]
+    is_checked = opponent_status[1]
+
+    player_piece_pos = player_pos_destination[0]
+
+    king_piece = player_king[0]
+    king_pos = player_king[1]
+
+    return true if stop_king_from_moving_into_check(player_pos_destination, king_piece, king_pos, opponent_path, is_checked) == true && player_piece_pos == king_pos && is_checked == false # rubocop:disable Layout/LineLength
+
+    return true if move_king_out_of_check(player_pos_destination, opponent_pieces, is_checked) == true
+
+    return true if more_than_1_pieces_checking_king?(player_piece_pos, king_pos, opponent_pieces, is_checked) == true
+
+    return true if king_exposed?(player_pos_destination, opponent_pieces, king_pos, is_checked)
+
+    return true if limit_player_moves_during_check(player_king, player_pos_destination, is_checked, own_chesspieces) == true && is_checked == true # rubocop:disable Layout/LineLength
+
+    false
   end
 
   def player_input
