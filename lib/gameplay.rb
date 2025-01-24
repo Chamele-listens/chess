@@ -40,26 +40,29 @@ class Chessboard
         own_chesspieces = get_king_own_chesspiece_in_check(king_pos, opponent_pieces, player_turn(@turn), @board)
       end
 
-      temp = player_input
+      player_pos_destination = player_input
 
-      p temp
+      player_piece_pos = player_pos_destination[0]
+      player_piece_destination = player_pos_destination[1]
 
-      next if save_load?(temp, game_object) == true
+      p player_pos_destination
+
+      next if save_load?(player_pos_destination, game_object) == true
 
       # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
-      next if stop_king_from_moving_into_check(temp, king_piece, king_pos, opponent_path, is_checked) == true && temp[0] == king_pos && is_checked == false # rubocop:disable Layout/LineLength
+      next if stop_king_from_moving_into_check(player_pos_destination, king_piece, king_pos, opponent_path, is_checked) == true && player_piece_pos == king_pos && is_checked == false # rubocop:disable Layout/LineLength
 
-      next if move_king_out_of_check(temp, opponent_pieces, is_checked) == true
+      next if move_king_out_of_check(player_pos_destination, opponent_pieces, is_checked) == true
 
-      next if more_than_1_pieces_checking_king?(temp[0], king_pos, opponent_pieces, is_checked) == true
+      next if more_than_1_pieces_checking_king?(player_piece_pos, king_pos, opponent_pieces, is_checked) == true
 
-      next if king_exposed?(temp, opponent_pieces, king_pos, is_checked)
+      next if king_exposed?(player_pos_destination, opponent_pieces, king_pos, is_checked)
 
-      next if limit_player_moves_during_check(player_king, temp, is_checked, own_chesspieces) == true && is_checked == true # rubocop:disable Layout/LineLength
-      next if player_input_valid?(temp) == false
-      next if player_own_piece?(temp) == false
+      next if limit_player_moves_during_check(player_king, player_pos_destination, is_checked, own_chesspieces) == true && is_checked == true # rubocop:disable Layout/LineLength
+      next if player_input_valid?(player_pos_destination) == false
+      next if player_own_piece?(player_pos_destination) == false
 
-      next if move(temp[0], temp[1]).nil?
+      next if move(player_piece_pos, player_piece_destination).nil?
 
       @turn += 1
     end
@@ -168,17 +171,17 @@ class Chessboard
     true
   end
 
-  def move_king_out_of_check(temp, opponent_pieces, is_checked)
-    return false unless get_chesspiece_from_board(temp[0], @board).is_a?(King)
+  def move_king_out_of_check(player_pos_destination, opponent_pieces, is_checked)
+    return false unless get_chesspiece_from_board(player_pos_destination[0], @board).is_a?(King)
     return false if is_checked == false
 
-    p temp
+    p player_pos_destination
 
-    opp_piece_path = only_generate_opponent_path_for_dangerous_pieces(temp[0], opponent_pieces, @board)
+    opp_piece_path = only_generate_opponent_path_for_dangerous_pieces(player_pos_destination[0], opponent_pieces, @board) # rubocop:disable Layout/LineLength
 
     opponent_path = opp_piece_path[1]
 
-    if opponent_path.include?(temp[1])
+    if opponent_path.include?(player_pos_destination[1])
       p 'move your king out of check'
       return true
     end
