@@ -20,16 +20,16 @@ class Chessboard
       king_piece = player_king[0]
       king_pos = player_king[1]
 
-      opponent_status = checked?(player_king[1], @board, player_turn(@turn))
+      opponent_status = checked?(king_pos, @board, player_turn(@turn))
 
       opponent_pieces = opponent_status[0]
       is_checked = opponent_status[1]
 
       opponent_path = generate_all_opponent_path(opponent_pieces, @board)
 
-      # break if stalemate?(opponent_path, player_king[1], player_king[0].color, @board) == true
+      # break if stalemate?(opponent_path, king_pos, king_piece.color, @board) == true
 
-      checkmate_status = checkmate?(player_king[1], opponent_pieces, @board, player_turn(@turn)) if is_checked == true # rubocop:disable Layout/LineLength
+      checkmate_status = checkmate?(king_pos, opponent_pieces, @board, player_turn(@turn)) if is_checked == true
 
       if checkmate_status == true
         p 'checkmate'
@@ -37,7 +37,7 @@ class Chessboard
       end
 
       if is_checked == true
-        own_chesspieces = get_king_own_chesspiece_in_check(player_king[1], opponent_pieces, player_turn(@turn), @board) # rubocop:disable Layout/LineLength
+        own_chesspieces = get_king_own_chesspiece_in_check(king_pos, opponent_pieces, player_turn(@turn), @board)
       end
 
       temp = player_input
@@ -47,13 +47,13 @@ class Chessboard
       next if save_load?(temp, game_object) == true
 
       # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
-      next if stop_king_from_moving_into_check(temp, player_king[0], player_king[1], opponent_path, is_checked) == true && temp[0] == player_king[1] && is_checked == false # rubocop:disable Layout/LineLength
+      next if stop_king_from_moving_into_check(temp, king_piece, king_pos, opponent_path, is_checked) == true && temp[0] == king_pos && is_checked == false # rubocop:disable Layout/LineLength
 
       next if move_king_out_of_check(temp, opponent_pieces, is_checked) == true
 
-      next if more_than_1_pieces_checking_king?(temp[0], player_king[1], opponent_pieces, is_checked) == true
+      next if more_than_1_pieces_checking_king?(temp[0], king_pos, opponent_pieces, is_checked) == true
 
-      next if king_exposed?(temp, opponent_pieces, player_king[1], is_checked)
+      next if king_exposed?(temp, opponent_pieces, king_pos, is_checked)
 
       next if limit_player_moves_during_check(player_king, temp, is_checked, own_chesspieces) == true && is_checked == true # rubocop:disable Layout/LineLength
       next if player_input_valid?(temp) == false
