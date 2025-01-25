@@ -167,30 +167,34 @@ module Checkmate_logic
 
       move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
 
-      opponent_pieces.each do |opponent_chesspiece, opp_pos|
-        opponent_path = opponent_chesspiece.generate_moves(opp_pos)
-
-        move_limit(opponent_path, board, opponent_chesspiece.color) unless opponent_pieces.is_a?(Knight)
-
-        opponent_path = chesspiece_cutoff_moves(opponent_chesspiece, opponent_path, opp_pos, king_location)
-
-        # opponent_path = [] if opponent_chesspiece.is_a?(Knight)
-
-        opponent_path << [opp_pos]
-
-        # Will find chess piece that can protect the king then store it in temp
-        # then it stores it in chesspiece_protect_king as a hash along with the pices's
-        # position. Then it'll be used for counting
-
-        temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
-
-        next if filter_non_dangerous_piece(temp, opponent_chesspiece, opponent_path, king_location) == false
-
-        chesspiece_protect_king[temp] = pos
-      end
+      compare_own_piece_with_opponent_path(chesspiece_protect_king, pos, board, opponent_pieces, king_location, chesspiece, own_path) # rubocop:disable Layout/LineLength
     end
     p chesspiece_protect_king
     chesspiece_protect_king
+  end
+
+  def compare_own_piece_with_opponent_path(chesspiece_protect_king, pos, board, opponent_pieces, king_location, chesspiece, own_path) # rubocop:disable Metrics/ParameterLists,Layout/LineLength
+    opponent_pieces.each do |opponent_chesspiece, opp_pos|
+      opponent_path = opponent_chesspiece.generate_moves(opp_pos)
+
+      move_limit(opponent_path, board, opponent_chesspiece.color) unless opponent_pieces.is_a?(Knight)
+
+      opponent_path = chesspiece_cutoff_moves(opponent_chesspiece, opponent_path, opp_pos, king_location)
+
+      # opponent_path = [] if opponent_chesspiece.is_a?(Knight)
+
+      opponent_path << [opp_pos]
+
+      # Will find chess piece that can protect the king then store it in temp
+      # then it stores it in chesspiece_protect_king as a hash along with the pices's
+      # position. Then it'll be used for counting
+
+      temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
+
+      next if filter_non_dangerous_piece(temp, opponent_chesspiece, opponent_path, king_location) == false
+
+      chesspiece_protect_king[temp] = pos
+    end
   end
 
   def filter_non_dangerous_piece(temp, opponent_chesspiece, opponent_path, king_location)
