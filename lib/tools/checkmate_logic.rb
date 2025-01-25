@@ -182,21 +182,23 @@ module Checkmate_logic
         # then it stores it in chesspiece_protect_king as a hash along with the pices's
         # position. Then it'll be used for counting
 
-        temp = ''
-
         temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
 
-        next if temp == false
-
-        next if temp.is_a?(Pawn) && opponent_chesspiece.is_a?(Knight)
-
-        next if opponent_chesspiece_dangerous?(opponent_path, king_location) == false
+        next if find_chesspiece_to_protect_king(temp, opponent_chesspiece, opponent_path, king_location) == false
 
         chesspiece_protect_king[temp] = pos
       end
     end
     p chesspiece_protect_king
     chesspiece_protect_king
+  end
+
+  def find_chesspiece_to_protect_king(temp, opponent_chesspiece, opponent_path, king_location)
+    return false if temp == false
+
+    return false if temp.is_a?(Pawn) && opponent_chesspiece.is_a?(Knight)
+
+    false if opponent_chesspiece_dangerous?(opponent_path, king_location) == false
   end
 
   def chesspiece_cutoff_moves(opponent_chesspiece, opponent_path, opp_pos, king_location)
