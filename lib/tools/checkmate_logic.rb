@@ -181,13 +181,7 @@ module Checkmate_logic
 
       opponent_path = chesspiece_cutoff_moves(opponent_chesspiece, opponent_path, opp_pos, king_location)
 
-      # opponent_path = [] if opponent_chesspiece.is_a?(Knight)
-
       opponent_path << [opp_pos]
-
-      # Will find chess piece that can protect the king then store it in temp
-      # then it stores it in chesspiece_protect_king as a hash along with the pices's
-      # position. Then it'll be used for counting
 
       temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
 
