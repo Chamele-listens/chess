@@ -172,11 +172,7 @@ module Checkmate_logic
 
         move_limit(opponent_path, board, opponent_chesspiece.color) unless opponent_pieces.is_a?(Knight)
 
-        opponent_path = cutoff_bishop_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Bishop)
-
-        opponent_path = cutoff_rook_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Rook)
-
-        opponent_path = cutoff_queen_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Queen)
+        opponent_path = chesspiece_cutoff_moves(opponent_path, opp_pos, king_location)
 
         # opponent_path = [] if opponent_chesspiece.is_a?(Knight)
 
@@ -187,8 +183,6 @@ module Checkmate_logic
         # position. Then it'll be used for counting
 
         temp = ''
-
-        # p opponent_path
 
         temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
 
@@ -203,6 +197,16 @@ module Checkmate_logic
     end
     p chesspiece_protect_king
     chesspiece_protect_king
+  end
+
+  def chesspiece_cutoff_moves(opponent_path, opp_pos, king_location)
+    opponent_path = cutoff_bishop_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Bishop)
+
+    opponent_path = cutoff_rook_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Rook)
+
+    opponent_path = cutoff_queen_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Queen)
+
+    opponent_path
   end
 
   def opponent_chesspiece_dangerous?(opponent_path, king_location)
