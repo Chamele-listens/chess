@@ -184,7 +184,7 @@ module Checkmate_logic
 
         temp = chess_path_intercept?(own_path, opponent_path, opponent_chesspiece, chesspiece)
 
-        next if find_chesspiece_to_protect_king(temp, opponent_chesspiece, opponent_path, king_location) == false
+        next if filter_non_dangerous_piece(temp, opponent_chesspiece, opponent_path, king_location) == false
 
         chesspiece_protect_king[temp] = pos
       end
@@ -193,12 +193,14 @@ module Checkmate_logic
     chesspiece_protect_king
   end
 
-  def find_chesspiece_to_protect_king(temp, opponent_chesspiece, opponent_path, king_location)
+  def filter_non_dangerous_piece(temp, opponent_chesspiece, opponent_path, king_location)
     return false if temp == false
 
     return false if temp.is_a?(Pawn) && opponent_chesspiece.is_a?(Knight)
 
-    false if opponent_chesspiece_dangerous?(opponent_path, king_location) == false
+    return false if opponent_chesspiece_dangerous?(opponent_path, king_location) == false
+
+    true
   end
 
   def chesspiece_cutoff_moves(opponent_chesspiece, opponent_path, opp_pos, king_location)
