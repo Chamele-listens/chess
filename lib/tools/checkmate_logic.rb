@@ -172,7 +172,7 @@ module Checkmate_logic
 
         move_limit(opponent_path, board, opponent_chesspiece.color) unless opponent_pieces.is_a?(Knight)
 
-        opponent_path = chesspiece_cutoff_moves(opponent_path, opp_pos, king_location)
+        opponent_path = chesspiece_cutoff_moves(opponent_chesspiece, opponent_path, opp_pos, king_location)
 
         # opponent_path = [] if opponent_chesspiece.is_a?(Knight)
 
@@ -199,7 +199,7 @@ module Checkmate_logic
     chesspiece_protect_king
   end
 
-  def chesspiece_cutoff_moves(opponent_path, opp_pos, king_location)
+  def chesspiece_cutoff_moves(opponent_chesspiece, opponent_path, opp_pos, king_location)
     opponent_path = cutoff_bishop_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Bishop)
 
     opponent_path = cutoff_rook_moves(opponent_path, opp_pos, king_location) if opponent_chesspiece.is_a?(Rook)
