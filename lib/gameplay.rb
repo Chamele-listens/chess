@@ -12,7 +12,7 @@ class Chessboard
 
     # @turn = 0
 
-    create_new_game(@board)
+    # create_new_game(@board)
 
     loop do
       show_grid
@@ -29,8 +29,6 @@ class Chessboard
 
       opponent_path = generate_all_opponent_path(opponent_pieces, @board)
 
-      # break if stalemate?(opponent_path, king_pos, king_piece.color, @board) == true
-
       checkmate_status = checkmate?(king_pos, opponent_pieces, @board, player_turn(@turn)) if is_checked == true
 
       if checkmate_status == true
@@ -41,6 +39,10 @@ class Chessboard
       if is_checked == true
         own_chesspieces = get_king_own_chesspiece_in_check(king_pos, opponent_pieces, player_turn(@turn), @board)
       end
+
+      break if is_checked == false && stalemate?(opponent_pieces, opponent_path, king_pos, king_piece.color, @board) == (true) # rubocop:disable Layout/LineLength
+
+      # break if stalemate?(opponent_path, king_pos, king_piece.color, @board) == true
 
       player_pos_destination = player_input
 

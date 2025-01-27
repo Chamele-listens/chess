@@ -49,17 +49,61 @@ module Checkmate_logic
     false
   end
 
-  def stalemate?(opponent_path, chesspiece_location, color, board)
+  def stalemate?(opponent_pieces, opponent_path, chesspiece_location, color, board)
     king_moves = generate_king_moves(chesspiece_location)
-    return false if king_moves.count { |move| check_chesspiece_color(move, board, color) } > 1
+    # return false if king_moves.count { |move| check_chesspiece_color(move, board, color) } > 1
 
     king_moves.reject! { |move| get_chesspiece_from_board(move, board).is_a?(Chesspiece) }
 
+    return false if find_piece_to_prevent_stalemate?(color, board, opponent_pieces) == true
+
+    p "#{!opponent_path.include?(chesspiece_location)} and #{(king_moves - opponent_path).empty?}"
+
     if !opponent_path.include?(chesspiece_location) && (king_moves - opponent_path).empty?
       p 'stalemate'
-      true
+      return true
     else
       p 'nothing happen'
+    end
+
+    false
+  end
+
+  def find_piece_to_prevent_stalemate?(color, board, opponent_pieces)
+    own_chesspiece_path = []
+
+    all_opp_pos = []
+
+    all_pos = generate_all_possible_pos
+
+    own_chesspieces = find_own_piece_from_path_set(all_pos, color, board)
+
+    own_chesspieces.reject! { |chesspiece| chesspiece.is_a?(King) }
+
+    own_chesspieces.each do |chesspiece, pos|
+      own_path = chesspiece.generate_moves(pos)
+
+      own_path = opponent_chesspiece_nearby_own_piece(own_path, pos, board) if chesspiece.is_a?(Pawn)
+
+      move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
+
+      own_chesspiece_path << own_path
+    end
+
+    opponent_pieces.each_value { |opp_pos| all_opp_pos << opp_pos }
+
+    p "#{own_chesspiece_path.flatten(2)} and #{all_opp_pos}"
+
+    p "#{own_chesspiece_path.flatten(2).any? { |path| all_opp_pos.include? path }}"
+
+    # [2, 6, 13, 99, 27].any? { |i| [6, 13].include? i }
+
+    if own_chesspiece_path.flatten(2).any? { |path| all_opp_pos.include? path }
+      p 'Own piece can prevent stalemate !'
+      true
+    else
+      p "Own piece can't prevent stalemate !"
+      false
     end
   end
 
