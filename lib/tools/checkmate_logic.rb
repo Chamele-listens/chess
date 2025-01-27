@@ -74,11 +74,7 @@ module Checkmate_logic
 
     all_opp_pos = []
 
-    all_pos = generate_all_possible_pos
-
-    own_chesspieces = find_own_piece_from_path_set(all_pos, color, board)
-
-    own_chesspieces.reject! { |chesspiece| chesspiece.is_a?(King) }
+    own_chesspieces = get_all_king_pieces(color, board)
 
     own_chesspieces.each do |chesspiece, pos|
       own_path = chesspiece.generate_moves(pos)
@@ -105,6 +101,16 @@ module Checkmate_logic
       p "Own piece can't prevent stalemate !"
       false
     end
+  end
+
+  def get_all_king_pieces(color, board)
+    all_pos = generate_all_possible_pos
+
+    own_chesspieces = find_own_piece_from_path_set(all_pos, color, board)
+
+    own_chesspieces.reject! { |chesspiece| chesspiece.is_a?(King) }
+
+    own_chesspieces
   end
 
   def get_king_own_chesspiece_in_check(chesspiece_location, opponent_pieces, color, board)
