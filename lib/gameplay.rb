@@ -42,8 +42,6 @@ class Chessboard
 
       break if is_checked == false && @turn >= 10 && stalemate?(opponent_pieces, opponent_path, king_pos, king_piece.color, @board) == (true) # rubocop:disable Layout/LineLength
 
-      # break if stalemate?(opponent_path, king_pos, king_piece.color, @board) == true
-
       player_pos_destination = player_input
 
       player_piece_pos = player_pos_destination[0]
@@ -53,9 +51,8 @@ class Chessboard
 
       next if chesspiece_constraint?(player_pos_destination, player_king, own_chesspieces, opponent_status, opponent_path) == true # rubocop:disable Layout/LineLength
 
-      # Edge case: when king is in checkmate, king must move out of checkmate not towards (Fixed)
-
       next if player_input_valid?(player_pos_destination) == false
+
       next if player_own_piece?(player_pos_destination) == false
 
       next if move(player_piece_pos, player_piece_destination).nil?
