@@ -40,7 +40,7 @@ class Chessboard
         own_chesspieces = get_king_own_chesspiece_in_check(king_pos, opponent_pieces, player_turn(@turn), @board)
       end
 
-      break if is_checked == false && stalemate?(opponent_pieces, opponent_path, king_pos, king_piece.color, @board) == (true) # rubocop:disable Layout/LineLength
+      break if is_checked == false && @turn >= 10 && stalemate?(opponent_pieces, opponent_path, king_pos, king_piece.color, @board) == (true) # rubocop:disable Layout/LineLength
 
       # break if stalemate?(opponent_path, king_pos, king_piece.color, @board) == true
 
