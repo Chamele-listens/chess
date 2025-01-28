@@ -76,15 +76,7 @@ module Checkmate_logic
 
     own_chesspieces = get_all_king_pieces(color, board)
 
-    own_chesspieces.each do |chesspiece, pos|
-      own_path = chesspiece.generate_moves(pos)
-
-      own_path = opponent_chesspiece_nearby_own_piece(own_path, pos, board) if chesspiece.is_a?(Pawn)
-
-      move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
-
-      own_chesspiece_path << own_path
-    end
+    own_chesspiece_path = generate_king_pieces_path(own_chesspiece_path, own_chesspieces, board)
 
     opponent_pieces.each_value { |opp_pos| all_opp_pos << opp_pos }
 
@@ -111,6 +103,20 @@ module Checkmate_logic
     own_chesspieces.reject! { |chesspiece| chesspiece.is_a?(King) }
 
     own_chesspieces
+  end
+
+  def generate_king_pieces_path(own_chesspiece_path, own_chesspieces, board)
+    own_chesspieces.each do |chesspiece, pos|
+      own_path = chesspiece.generate_moves(pos)
+
+      own_path = opponent_chesspiece_nearby_own_piece(own_path, pos, board) if chesspiece.is_a?(Pawn)
+
+      move_limit(own_path, board, chesspiece.color) unless chesspiece.is_a?(Knight)
+
+      own_chesspiece_path << own_path
+    end
+
+    own_chesspiece_path
   end
 
   def get_king_own_chesspiece_in_check(chesspiece_location, opponent_pieces, color, board)
