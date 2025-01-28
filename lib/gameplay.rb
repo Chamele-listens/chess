@@ -10,9 +10,7 @@ class Chessboard
   def start(game_object)
     p 'Play a game of chess !'
 
-    # @turn = 0
-
-    # create_new_game(@board)
+    create_new_game(@board)
 
     loop do
       show_grid
