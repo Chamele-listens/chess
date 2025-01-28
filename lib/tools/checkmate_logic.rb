@@ -62,8 +62,6 @@ module Checkmate_logic
     if !opponent_path.include?(chesspiece_location) && (king_moves - opponent_path).empty?
       p 'stalemate'
       return true
-    else
-      p 'nothing happen'
     end
 
     false
