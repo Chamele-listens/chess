@@ -80,17 +80,11 @@ module Checkmate_logic
 
     opponent_pieces.each_value { |opp_pos| all_opp_pos << opp_pos }
 
-    p "#{own_chesspiece_path.flatten(2)} and #{all_opp_pos}"
-
-    p "#{own_chesspiece_path.flatten(2).any? { |path| all_opp_pos.include? path }}"
-
-    # [2, 6, 13, 99, 27].any? { |i| [6, 13].include? i }
-
     if own_chesspiece_path.flatten(2).any? { |path| all_opp_pos.include? path }
-      p 'Own piece can prevent stalemate !'
+      # p 'Own piece can prevent stalemate !'
       true
     else
-      p "Own piece can't prevent stalemate !"
+      # p "Own piece can't prevent stalemate !"
       false
     end
   end
