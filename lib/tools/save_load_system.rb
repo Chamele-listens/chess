@@ -1,7 +1,16 @@
 require 'oj'
+require 'os'
 
 # moldule for saving and loading files
 module Save_load_system
+  def check_os_for_saving_file
+    if OS.linux? || OS.mac?
+      'lib/save_files/save_file.json'
+    elsif OS.window?
+      'lib\save_files\save_file.json'
+    end
+  end
+
   def write_to_save_file(game_object)
     save_data = Oj.dump(game_object)
     out_file = File.new('lib/save_files/save_file.json', 'w')
