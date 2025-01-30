@@ -15,6 +15,12 @@ required gems from the Gemfile
 bundle install
 ```
 
+### Starting the game
+To start the game type this in the terminal from the root directory
+```
+ruby lib/chess_main.rb
+```
+
 ### How to play
 
 To move a chess piece, type 4 strings of number like `2242`, where the first 2 numbers
