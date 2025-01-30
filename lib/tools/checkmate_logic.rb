@@ -33,13 +33,6 @@ module Checkmate_logic
 
     # return false if opponent_pieces.count <= own_chesspieces.count
 
-    # use king_escape? or if there's any piece that can protct him
-    # as a way to check for checkmate
-
-    p 'ran'
-
-    # TODO: change naming convention for opponent_pieces
-
     temp_opponent_pieces = remove_non_dangerous_piece(chesspiece_location, opponent_pieces)
 
     opponent_path = generate_all_opponent_path(temp_opponent_pieces, board)
@@ -217,7 +210,6 @@ module Checkmate_logic
 
       compare_own_piece_with_opponent_path(chesspiece_protect_king, pos, board, opponent_pieces, king_location, chesspiece, own_path) # rubocop:disable Layout/LineLength
     end
-    p chesspiece_protect_king
     chesspiece_protect_king
   end
 
@@ -347,7 +339,7 @@ module Checkmate_logic
     own_path.each do |path|
       opponent_path.each do |opp_path|
         opp_path.each do |opp_move|
-          p "King is protected from #{opponent_chesspiece.type} at #{opp_move} by #{chesspiece.type}" if path.include?(opp_move) # rubocop:disable Layout/LineLength
+          # p "King is protected from #{opponent_chesspiece.type} at #{opp_move} by #{chesspiece.type}" if path.include?(opp_move) # rubocop:disable Layout/LineLength
           return chesspiece if path.include?(opp_move)
           # return true if path.include?(opp_move)
         end

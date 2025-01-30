@@ -112,7 +112,6 @@ class Chessboard
   end
 
   def player_own_piece?(move_pos)
-    p 'ran'
     return false if get_chesspiece_from_board(move_pos[0], @board) == '[ ]'
 
     false unless get_chesspiece_from_board(move_pos[0], @board).color == player_turn(@turn)
