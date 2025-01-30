@@ -13,7 +13,6 @@ required gems from the Gemfile
 
 ```
 bundle install
-
 ```
 
 ### How to play
@@ -23,7 +22,7 @@ represent the vertical and horizontal position of your chess piece. The last 2 n
 
 #### Saving and loading
 
-You can type save any time during the game to save a file. You can also type load anytime to load from an existing save file. A save file folder will be created automatically if there isn't any. 
+You can type save/load any time during the game to save/load a file. A save file folder will be created automatically if there isn't any. 
 
 #### Warning
 You can only create one save_file at a time !
