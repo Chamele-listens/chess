@@ -3,7 +3,7 @@ require 'os'
 
 # moldule for saving and loading files
 module Save_load_system
-  def check_os_for_saving_file
+  def check_os_directory_for_save_file
     if OS.linux? || OS.mac?
       'lib/save_files/save_file.json'
     elsif OS.window?
@@ -21,18 +21,18 @@ module Save_load_system
 
   def write_to_save_file(game_object)
     save_data = Oj.dump(game_object)
-    out_file = File.new('lib/save_files/save_file.json', 'w')
+    out_file = File.new(check_os_directory_for_save_file, 'w')
     out_file.puts(save_data)
     out_file.close
   end
 
   def load_from_save_file
-    file_in = File.read('lib/save_files/save_file.json')
+    file_in = File.read(check_os_directory_for_save_file)
     Oj.load(file_in)
   end
 
   def create_save_files_folder
-    Dir.mkdir('lib/save_files') unless File.exist?('lib/save_files')
+    Dir.mkdir(check_os_for_save_file_creation) unless File.exist?(check_os_for_save_file_creation)
   end
 
   def save_load?(player_input, game_object)
@@ -59,7 +59,7 @@ module Save_load_system
   end
 
   def save_file_override?
-    return unless File.exist?('lib/save_files/save_file.json')
+    return unless File.exist?(check_os_directory_for_save_file)
 
     p 'Do you want to override your save file? (y/n)'
     input = gets.chomp.downcase
@@ -70,7 +70,7 @@ module Save_load_system
   end
 
   def load
-    return p 'There is no save file' unless File.exist?('lib/save_files/save_file.json')
+    return p 'There is no save file' unless File.exist?(check_os_directory_for_save_file)
 
     save_data = load_from_save_file
     @board = save_data.board
