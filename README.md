@@ -1,5 +1,5 @@
 ### Chess
-A full fledge chess game on the terminal !
+A full fledge chess game on the terminal you can play with your friends !
 
 ### Features
 - save load system (support for win/linux/mac)
