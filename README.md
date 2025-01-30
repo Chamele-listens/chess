@@ -1,0 +1,29 @@
+### Chess
+A full fledge chess game on the terminal !
+
+### Features
+- save load system (support for win/linux/mac)
+- check and checkmate
+- proper chess moves constraints
+
+### Prerequisites 
+
+Before you run the game, make sure you do a bundle install to install of the
+required gems from the Gemfile
+
+```
+bundle install
+
+```
+
+### How to play
+
+To move a chess piece, type 4 strings of number like `2242`, where the first 2 numbers
+represent the vertical and horizontal position of your chess piece. The last 2 numbers shows the vertical and horizontal position of where you want to move you piece.
+
+#### Saving and loading
+
+You can type save any time during the game to save a file. You can also type load anytime to load from an existing save file. A save file folder will be created automatically if there isn't any. 
+
+#### Warning
+You can only create one save_file at a time !
