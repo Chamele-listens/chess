@@ -17,8 +17,15 @@ bundle install
 
 ### Starting the game
 To start the game type this in the terminal from the root directory
+
+##### linux
 ```
 ruby lib/chess_main.rb
+```
+
+##### window
+```
+ruby lib\chess_main.rb
 ```
 
 ### How to play
